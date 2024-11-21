@@ -27,7 +27,6 @@ from api.nestPost import nestPost_api # Justin added this, custom format for his
 from api.messages_api import messages_api # Adi added this, messages for his website
 from api.carphoto import car_api
 from api.carChat import car_chat_api
-from api.ai_homework_bot import ai_homework_bot
 
 
 
@@ -57,7 +56,6 @@ app.register_blueprint(nestPost_api)
 app.register_blueprint(nestImg_api)
 app.register_blueprint(vote_api)
 app.register_blueprint(car_api)
-app.register_blueprint(ai_homework_bot)
 
 
 # Tell Flask-Login the view function name of your login route
@@ -165,7 +163,7 @@ def ai_homework_help():
         return jsonify({"error": "No question provided."}), 400
 
     try:
-        response = model.generate_content(question)
+        response = model.generate_content(f"You are a homework bot to help with homework. Don't answer questions unrelated to school. \nHere is your prompt: {question}")
         return jsonify({"response": response.text}), 200
     except Exception as e:
         print("error!")
