@@ -9,6 +9,7 @@ from flask_login import current_user, login_required
 from flask import current_app
 from werkzeug.security import generate_password_hash
 import shutil
+import google.generativeai as genai
 
 
 
@@ -151,6 +152,26 @@ def reset_password(user_id):
     if user.update({"password": app.config['DEFAULT_PASSWORD']}):
         return jsonify({'message': 'Password reset successfully'}), 200
     return jsonify({'error': 'Password reset failed'}), 500
+
+
+genai.configure(api_key="AIzaSyCCU8xmiAqtjpqrxiZypJqB3Cn_TQ5UzUQ")
+model = genai.GenerativeModel('gemini-pro')
+
+@app.route('/api/ai/help', methods=['POST'])
+def ai_homework_help():
+    data = request.get_json()
+    question = data.get("question", "")
+    if not question:
+        return jsonify({"error": "No question provided."}), 400
+
+    try:
+        response = model.generate_content(question)
+        return jsonify({"response": response.text}), 200
+    except Exception as e:
+        print("error!")
+        print(e)
+        return jsonify({"error": str(e)}), 500
+
 
 # Create an AppGroup for custom commands
 custom_cli = AppGroup('custom', help='Custom commands')

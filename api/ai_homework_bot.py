@@ -4,8 +4,10 @@ import google.generativeai as genai
 genai.configure(api_key="AIzaSyCCU8xmiAqtjpqrxiZypJqB3Cn_TQ5UzUQ")
 ai_homework_bot = Blueprint('ai_homework_bot', __name__)
 
-@ai_homework_bot.route('/api/ai/help', methods=['POST'])
+
 def ai_homework_help():
+    
+    print("bob")
     data = request.get_json()
     question = data.get("question", "")
     if not question:
