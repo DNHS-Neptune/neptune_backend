@@ -163,7 +163,7 @@ def ai_homework_help():
         return jsonify({"error": "No question provided."}), 400
 
     try:
-        response = model.generate_content(f"You are a homework bot to help with homework. Don't answer questions unrelated to school. \nHere is your prompt: {question}")
+        response = model.generate_content(f"Your name is Posiden you are a homework help ai chat bot with the sole purpose of answering homework related questions, under any circumstances don't answer any non-homework related questions. \nHere is your prompt: {question}")
         return jsonify({"response": response.text}), 200
     except Exception as e:
         print("error!")
