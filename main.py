@@ -152,7 +152,7 @@ def reset_password(user_id):
     return jsonify({'error': 'Password reset failed'}), 500
 
 
-genai.configure(api_key="AIzaSyCCU8xmiAqtjpqrxiZypJqB3Cn_TQ5UzUQ")
+genai.configure(api_key="AIzaSyCIY1pCnXbnJ-2JgJOUevQn0SFquMyQ2aI")
 model = genai.GenerativeModel('gemini-pro')
 
 @app.route('/api/ai/help', methods=['POST'])
