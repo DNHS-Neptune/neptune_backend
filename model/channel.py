@@ -159,98 +159,14 @@ def initChannels():
             Channel(name='FAQ', group_id=support.id),
             Channel(name='Help Desk', group_id=support.id)
         ]
-        
-        # Shared Interest Channels 
-        limitless_connection = Group.query.filter_by(_name='Limitless Connections').first() 
-        dnhs_football = Group.query.filter_by(_name='DNHS Football').first() 
-        school_subjects = Group.query.filter_by(_name='School Subjects').first()
-        music = Group.query.filter_by(_name='Music').first()
-        satire = Group.query.filter_by(_name='Satire').first()
-        activity_hub = Group.query.filter_by(_name='Activity Hub').first()
-        shared_interest_channels = [
-            Channel(name='Penpal Letters', group_id=limitless_connection.id),
-            Channel(name='Game vs Poway', group_id=dnhs_football.id),
-            Channel(name='Game vs Westview', group_id=dnhs_football.id),
-            Channel(name='Math', group_id=school_subjects.id),
-            Channel(name='English', group_id=school_subjects.id),
-            Channel(name='Artist', group_id=music.id),
-            Channel(name='Music Genre', group_id=music.id),
-            Channel(name='Humor', group_id=satire.id),
-            Channel(name='Memes', group_id=satire.id),
-            Channel(name='Irony', group_id=satire.id),
-            Channel(name='Cyber Patriots', group_id=activity_hub.id),
-            Channel(name='Robotics', group_id=activity_hub.id),
-        ]
-        
-        #P3 Channels Below
-         # Share and Care channels below:
-        DNHSCafe = Group.query.filter_by(_name='Study Room').first()
-        chess_forum = Group.query.filter_by(_name='Chess Forum').first()
-        Underground_Music = Group.query.filter_by(_name='Underground Music').first()
-        share_and_care_channels = [
-            Channel(name='Math', group_id=DNHSCafe.id),
-            Channel(name='Chemistry', group_id=DNHSCafe.id),
-            Channel(name='Biology', group_id=DNHSCafe.id),
-            Channel(name='English', group_id=DNHSCafe.id),
-            Channel(name='Coding', group_id=DNHSCafe.id),
-            Channel(name='History', group_id=DNHSCafe.id),
-            Channel(name='General', group_id=chess_forum.id),
-            Channel(name='Chess Tips', group_id=chess_forum.id),
-            Channel(name='Game Updates', group_id=chess_forum.id),
-            Channel(name='Artists', group_id=Underground_Music.id),
-            Channel(name='Songs', group_id=Underground_Music.id),
-            Channel(name='Genres', group_id=Underground_Music.id),
-        ]
 
-        # P2 channels below:
-        
-        # Vote for the GOAT channels below:
-        internet_debates = Group.query.filter_by(_name='Internet Debates').first() 
-        calico_vote = Group.query.filter_by(_name='Calico Vote').first() 
-        dnero_store = Group.query.filter_by(_name='Dnero Store').first()
-        beverage_debates = Group.query.filter_by(_name='Beverage Debates').first()
-        nfl_goats = Group.query.filter_by(_name='NFL GOATs').first()
-        car_debates = Group.query.filter_by(_name='Car Debates').first()
-        vote_for_the_goat_channels = [
-            Channel(name='Milk vs Cereal', group_id=internet_debates.id),
-            Channel(name='Hot Dog Sandwich', group_id=internet_debates.id),
-            Channel(name='Pineapple on Pizza', group_id=internet_debates.id),
-            Channel(name='Cats vs Dogs', group_id=internet_debates.id),
-            Channel(name='Coffee or Tea', group_id=internet_debates.id),
-            Channel(name='Economy Cars', group_id=car_debates.id),
-            Channel(name='Luxury Cars', group_id=car_debates.id),
-            Channel(name='Vintage Cars', group_id=car_debates.id),
-            Channel(name='Student Cars', group_id=car_debates.id),
-            Channel(name='Adventure Play House', group_id=calico_vote.id),
-            Channel(name='Sylvanian Family Restraunt House', group_id=calico_vote.id),
-            Channel(name='Magical Mermaid Castle House', group_id=calico_vote.id),
-            Channel(name='Woody School House', group_id=calico_vote.id),
-            Channel(name='Spooky Suprise Haunted House', group_id=calico_vote.id),
-            Channel(name='Brick Oven Bakery House', group_id=calico_vote.id),
-            Channel(name='Food and Drink', group_id=dnero_store.id),
-            Channel(name='Spirit', group_id=dnero_store.id),
-            Channel(name='Limited Edition', group_id=dnero_store.id),
-            Channel(name='Quarterbacks', group_id=nfl_goats.id),
-            Channel(name='Running Backs', group_id=nfl_goats.id),
-            Channel(name='Wide Receivers', group_id=nfl_goats.id),
-            Channel(name='Defensive Players', group_id=nfl_goats.id),
-            Channel(name='NFL Divisions', group_id=nfl_goats.id),
-            Channel(name='Gift Cards', group_id=dnero_store.id),
-        ]
-        
-        # P5 Channels: 
-        book_reviews = Group.query.filter_by(_name='Book Reviews').first() 
-        instabox = Group.query.filter_by(_name='Instabox').first() 
-        flavor_fusion = Group.query.filter_by(_name='Flavor Fusion').first()
-        update_the_nest = Group.query.filter_by(_name='Update The Nest').first()
-        rate_and_relate_channels = [
-            Channel(name='Fiction Books', group_id=book_reviews.id),
-            Channel(name='Nonfiction Books', group_id=book_reviews.id),
-            Channel(name='Combos', group_id=flavor_fusion.id),
+        astronet = Group.query.filter_by(_name='AstroNet').first() 
+        astronet_channels = [
+            Channel(name='main', group_id=astronet.id)
         ]
         
         
-        channels = home_page_channels + shared_interest_channels + vote_for_the_goat_channels + rate_and_relate_channels
+        channels = home_page_channels + astronet_channels
         for channel in channels:
             try:
                 db.session.add(channel)

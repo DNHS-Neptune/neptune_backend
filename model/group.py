@@ -175,58 +175,12 @@ def initGroups():
             Group(name='Support', section_id=home_page_section.id, moderators=[User.query.get(1)])
         ]
         
-        # Shared Interest Groups 
-        shared_interest_section = Section.query.filter_by(_name='Shared Interest').first()
-        groups += [
-            Group(name='Limitless Connections', section_id=shared_interest_section.id, moderators=[User.query.get(1)]),
-            Group(name='DNHS Football', section_id=shared_interest_section.id, moderators=[User.query.get(1)]),
-            Group(name='School Subjects', section_id=shared_interest_section.id, moderators=[User.query.get(1)]),
-            Group(name='Music', section_id=shared_interest_section.id, moderators=[User.query.get(1)]),
-            Group(name='Satire', section_id=shared_interest_section.id, moderators=[User.query.get(1)]),
-            Group(name='Activity Hub', section_id=shared_interest_section.id, moderators=[User.query.get(1)]),
-        ]
 
-        # Create and Compete Groups
-        create_and_compete_section = Section.query.filter_by(_name='Create and Compete').first()
-        groups += [
-            Group(name='Reality Room', section_id=create_and_compete_section.id, moderators=[User.query.get(1)]),
-            Group(name='Doodle', section_id=create_and_compete_section.id, moderators=[User.query.get(1)]),
-            Group(name='Elevator Pitch', section_id=create_and_compete_section.id, moderators=[User.query.get(1)]),
-            Group(name='Zoom n Guess', section_id=create_and_compete_section.id, moderators=[User.query.get(1)]),
-            Group(name='Culinary Posts', section_id=create_and_compete_section.id, moderators=[User.query.get(1)]),
-            Group(name='Riddle Room', section_id=create_and_compete_section.id, moderators=[User.query.get(1)]),
-        ]
-        
-        # Share and Care Groups
-        share_and_care = Section.query.filter_by(_name='Share and Care').first()
-        groups += [
-            Group(name='DNHS Cafe', section_id=share_and_care.id, moderators=[User.query.get(1)]),
-            Group(name='Cipher', section_id=share_and_care.id, moderators=[User.query.get(1)]),
-            Group(name='Chess Champion', section_id=share_and_care.id, moderators=[User.query.get(1)]),
-            Group(name='Underground Music', section_id=share_and_care.id, moderators=[User.query.get(1)]),
-            Group(name='The Hungry Games', section_id=share_and_care.id, moderators=[User.query.get(1)]),
-            Group(name='REVVIT', section_id=share_and_care.id, moderators=[User.query.get(1)])
-        ]
-
-        # Vote for the GOAT Groups
-        vote_for_the_goat_section = Section.query.filter_by(_name='Vote for the GOAT').first()
-        groups += [
-            Group(name='Internet Debates', section_id=vote_for_the_goat_section.id, moderators=[User.query.get(1)]),
-            Group(name='Calico Vote', section_id=vote_for_the_goat_section.id, moderators=[User.query.get(1)]),
-            Group(name='Dnero Store', section_id=vote_for_the_goat_section.id, moderators=[User.query.get(1)]),
-            Group(name='Beverage Debates', section_id=vote_for_the_goat_section.id, moderators=[User.query.get(1)]),
-            Group(name='NFL GOATs', section_id=vote_for_the_goat_section.id, moderators=[User.query.get(1)]),
-            Group(name='Genres', section_id=vote_for_the_goat_section.id, moderators=[User.query.get(1)]),
-            Group(name='Car Debates', section_id=vote_for_the_goat_section.id, moderators=[User.query.get(1)])
-        ]
         
         # Rate and Relate Groups
-        rate_and_relate_section = Section.query.filter_by(_name='Rate and Relate').first()
+        neptune_section = Section.query.filter_by(_name='Neptune').first()
         groups += [
-            Group(name='Instabox', section_id=rate_and_relate_section.id, moderators=[User.query.get(1)]),
-            Group(name='Flavor Fusion', section_id=rate_and_relate_section.id, moderators=[User.query.get(1)]),
-            Group(name='Book Reviews', section_id=rate_and_relate_section.id, moderators=[User.query.get(1)]),
-            Group(name='Update The Nest', section_id=rate_and_relate_section.id, moderators=[User.query.get(1)]),
+            Group(name='AstroNet', section_id=neptune_section.id, moderators=[User.query.get(1)])
         ]
 
         for group in groups:
