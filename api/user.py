@@ -192,7 +192,7 @@ class UserAPI:
                     token,
                     max_age=3600,
                     secure=True,
-                    httponly=True,
+                    httponly=False,
                     path='/',
                     samesite='None'  # This is the key part for cross-site requests
                 )
@@ -224,7 +224,7 @@ class UserAPI:
                     token,
                     max_age=0,  # Immediately expire the cookie
                     secure=True,
-                    httponly=True,
+                    httponly=False,
                     path='/',
                     samesite='None'
                 )
