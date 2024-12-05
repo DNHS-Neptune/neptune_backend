@@ -10,6 +10,7 @@ from flask import current_app
 from werkzeug.security import generate_password_hash
 import shutil
 import google.generativeai as genai
+import base64
 
 
 
@@ -169,7 +170,39 @@ def ai_homework_help():
         print("error!")
         print(e)
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/image', methods=['POST'])
+def add_img_to_post():
+    print("Adding image to post")
+    data = request.get_json()
 
+    postId = data.get("postId", "")
+    img = data.get("img", "")
+
+    #print(img)
+    if not img:
+        return jsonify({"error": "No image provided."}), 400
+    
+    post = Post.query.get(postId)
+    if not post:
+        return jsonify({"error": "Post not found."}), 404
+    else:
+        randomId = str(post.id)
+        upload_dir = "nolanuploads"
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
+        img_path = os.path.join(upload_dir, f"{randomId}.png")
+        with open(img_path, "wb") as img_file:
+            img_file.write(base64.b64decode(img.split(",")[1]))
+
+        post._content = {**post._content, "img": f"/nolanuploads/{randomId}.png"}
+        post.update()
+    return jsonify({"response": "Image added to post"}), 200
+
+
+@app.route('/nolanuploads/<path:filename>')
+def static_uploaded_file(filename):
+    return send_from_directory('nolanuploads', filename)
 
 # Create an AppGroup for custom commands
 custom_cli = AppGroup('custom', help='Custom commands')
