@@ -64,7 +64,7 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy=True)
                                  
     
-    def __init__(self, name, uid, password="", role="User", pfp='', car='', email='?'):
+    def __init__(self, name, uid, password="", role="User", pfp='', car='', email='?', theme_mode='light' ):
         """
         Constructor, 1st step in object creation.
         
