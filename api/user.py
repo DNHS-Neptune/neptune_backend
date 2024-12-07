@@ -91,11 +91,15 @@ class UserAPI:
                 return {'message': 'User ID is missing, or is less than 2 characters'}, 400
 
             # Setup minimal USER OBJECT
-            user_obj = User(name=name, uid=uid)
+            user_obj = User(
+                name=name,
+                uid=uid,
+                theme_mode=body.get('theme_mode', 'light')  # Get theme_mode from body or default to 'light'
+            )
 
             # Add user to database
-            user = user_obj.create(body)  # pass the body elements to be saved in the database
-            if not user:  # failure returns error message
+            user = user_obj.create(body)
+            if not user:
                 return {'message': f'Processed {name}, either a format error or User ID {uid} is duplicate'}, 400
 
             return jsonify(user.read())

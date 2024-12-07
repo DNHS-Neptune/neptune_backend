@@ -59,6 +59,7 @@ class User(db.Model, UserMixin):
     _role = db.Column(db.String(20), default="User", nullable=False)
     _pfp = db.Column(db.String(255), unique=False, nullable=True)
     _car = db.Column(db.String(255), unique=False, nullable=True)
+    _theme_mode = db.Column(db.String(16), nullable=False,)
    
     posts = db.relationship('Post', backref='author', lazy=True)
                                  
@@ -81,6 +82,7 @@ class User(db.Model, UserMixin):
         self._role = role
         self._pfp = pfp
         self._car = car
+        self._theme_mode = theme_mode
 
     # UserMixin/Flask-Login requires a get_id method to return the id as a string
     def get_id(self):
@@ -205,7 +207,20 @@ class User(db.Model, UserMixin):
             bool: True if the UID matches, False otherwise.
         """
         return self._uid == uid
-
+    @property
+    def theme_mode(self):
+        """
+        gets the users theme mode preference
+        returns a boolean users theme mode preference
+        """
+        return self._theme_mode
+    @theme_mode.setter
+    def theme_mode(self, theme_mode):
+        """
+        Sets the users's theme mode preference
+        Args: theme_mode (boolean)
+        """
+        self._theme_mode= theme_mode
     @property
     def password(self):
         """
@@ -337,7 +352,8 @@ class User(db.Model, UserMixin):
             "email": self.email,
             "role": self._role,
             "pfp": self._pfp,
-            "car": self._car
+            "car": self._car,
+            "theme_mode": self._theme_mode
         }
         return data
         
