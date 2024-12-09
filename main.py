@@ -187,6 +187,7 @@ def class_list():
         "CSSE",
         "AP Lunch Theory",
     ]}), 200
+
 @app.route('/api/image', methods=['POST'])
 def add_img_to_post():
     print("Adding image to post")
