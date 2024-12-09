@@ -161,8 +161,10 @@ def initChannels():
         ]
 
         astronet = Group.query.filter_by(_name='AstroNet').first() 
+        classes = Group.query.filter_by(_name='Classes').first()
         astronet_channels = [
-            Channel(name='main', group_id=astronet.id)
+            Channel(name='main', group_id=astronet.id),
+            Channel(name='classlist', group_id=classes)
         ]
         
         

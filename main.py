@@ -171,6 +171,22 @@ def ai_homework_help():
         print(e)
         return jsonify({"error": str(e)}), 500
     
+@app.route("/api/classes", methods=["GET"])
+def class_list():
+    return jsonify({"response": [
+        "AP CSP",
+        "AP Chemistry",
+        "AP Biology",
+        "AP Seminar",
+        "AP Environmental Science",
+        "AP World History",
+        "AP Calculus AB",
+        "AP Calculus BC",
+        "Photography",
+        "AP CSA",
+        "CSSE",
+        "AP Lunch Theory",
+    ]}), 200
 @app.route('/api/image', methods=['POST'])
 def add_img_to_post():
     print("Adding image to post")

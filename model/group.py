@@ -180,7 +180,8 @@ def initGroups():
         # Rate and Relate Groups
         neptune_section = Section.query.filter_by(_name='Neptune').first()
         groups += [
-            Group(name='AstroNet', section_id=neptune_section.id, moderators=[User.query.get(1)])
+            Group(name='AstroNet', section_id=neptune_section.id, moderators=[User.query.get(1)]),
+            Group(name='Classes', section_id=neptune_section.id, moderators=[User.query.get(1)])
         ]
 
         for group in groups:
