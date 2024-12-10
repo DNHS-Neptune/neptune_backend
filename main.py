@@ -186,6 +186,23 @@ def class_list():
         "AP CSA",
         "CSSE",
         "AP Lunch Theory",
+        "World History ",
+        "Chemistry",
+        "Offrole",
+        "English",
+        "AP Language",
+        "AP Literature",
+        "Math",
+        "P.E.",
+        "Spanish",
+        "Chinese",
+        "AP Spanish",
+        "AP Chinese",
+        "AP Photography",
+        "ASB",
+        "Human Body Systems",
+        "Principles of Biomedical Science",
+        "Business and Law"
     ]}), 200
 
 @app.route('/api/image', methods=['POST'])
