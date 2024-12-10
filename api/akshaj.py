@@ -8,11 +8,11 @@ class AkshajAPI:
     class _A_Person(Resource):
         def get(self):
             return jsonify({
-                "name": "",
-                "age": 1,
-                "classes": [],
+                "name": "Akshaj Gurugugelli",
+                "age": 15,
+                "classes": ["HPOE", "AP CSP", "World History", "AP Calc", "APES"],
                 "favorite": {
-                    "color": "",
+                    "color": "Blue",
                     "number": 1
                 }
             })
