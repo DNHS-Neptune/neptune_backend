@@ -32,7 +32,7 @@ from api.carChat import car_chat_api
 from api.akshaj import akshaj_api
 from api.kanhay import kanhay_api
 from api.nolan import nolan_api
-
+from api.arya import arya_api
 
 from api.vote import vote_api
 # database Initialization functions
@@ -64,6 +64,7 @@ app.register_blueprint(car_api)
 app.register_blueprint(akshaj_api)
 app.register_blueprint(kanhay_api)
 app.register_blueprint(nolan_api)
+app.register_blueprint(arya_api)
 
 
 # Tell Flask-Login the view function name of your login route
