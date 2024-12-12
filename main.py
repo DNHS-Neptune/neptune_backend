@@ -11,7 +11,7 @@ from werkzeug.security import generate_password_hash
 import shutil
 import google.generativeai as genai
 import base64
-
+from flask_socketio import SocketIO, send, emit
 
 
 # import "objects" from "this" project
@@ -326,6 +326,25 @@ def restore_data_command():
     
 # Register the custom command group with the Flask application
 app.cli.add_command(custom_cli)
+
+'''
+SocketIO Configuration
+
+Example message payload:
+{
+    "user": "Nolan",
+    "message": "Kanhay has a crush on Shriyah"
+}
+'''
+
+socketio = SocketIO(app)
+@socketio.on('connect')
+def handle_connect():
+    emit('message', {'user': 'Server', 'text': 'Welcome to the chat!'})
+
+@socketio.on('chat_message')
+def handle_chat_message(data):
+    emit('chat_message', data, broadcast=True)
         
 # this runs the flask application on the development server
 if __name__ == "__main__":
