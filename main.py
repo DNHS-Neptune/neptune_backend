@@ -337,7 +337,7 @@ Example message payload:
 }
 '''
 
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 @socketio.on('connect')
 def handle_connect():
     emit('message', {'user': 'Server', 'text': 'Welcome to the chat!'})
