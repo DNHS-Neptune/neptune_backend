@@ -239,6 +239,7 @@ class UserAPI:
                     "error": str(e)
                 }, 500
 
+
 # Register the API resources with the Blueprint
 api.add_resource(UserAPI._BULK_CRUD, '/users')
 api.add_resource(UserAPI._CRUD, '/user')

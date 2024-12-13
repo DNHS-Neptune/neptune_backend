@@ -211,14 +211,14 @@ class User(db.Model, UserMixin):
     def theme_mode(self):
         """
         gets the users theme mode preference
-        returns a boolean users theme mode preference
+        returns a string of the users theme mode preference
         """
         return self._theme_mode
     @theme_mode.setter
     def theme_mode(self, theme_mode):
         """
         Sets the users's theme mode preference
-        Args: theme_mode (boolean)
+        Args: theme_mode (string)
         """
         self._theme_mode= theme_mode
     @property

@@ -12,6 +12,8 @@ import shutil
 import google.generativeai as genai
 import base64
 from flask_socketio import SocketIO, send, emit
+import jwt
+
 
 
 # import "objects" from "this" project
@@ -164,6 +166,24 @@ def reset_password(user_id):
         return jsonify({'message': 'Password reset successfully'}), 200
     return jsonify({'error': 'Password reset failed'}), 500
 
+@login_required
+@app.route('/api/theme', methods=['POST'])
+def change_theme():
+    data = request.get_json()
+    auth = request.cookies.get("jwt_python_flask")
+
+    jwtDecoded = jwt.decode(auth, current_app.config["SECRET_KEY"], algorithms="HS256")
+    values = list(jwtDecoded.values())
+    dui = values[0]
+
+    user = User.query.filter_by(_uid=dui).first()
+    _values = list(data.values())
+    user.update({"_theme_mode": _values[0]})
+
+    return jsonify({
+        "response": "good"
+    }), 200
+
 
 genai.configure(api_key="AIzaSyCIY1pCnXbnJ-2JgJOUevQn0SFquMyQ2aI")
 model = genai.GenerativeModel('gemini-pro')
@@ -182,6 +202,7 @@ def ai_homework_help():
         print("error!")
         print(e)
         return jsonify({"error": str(e)}), 500
+    
     
 @app.route("/api/classes", methods=["GET"])
 def class_list():
