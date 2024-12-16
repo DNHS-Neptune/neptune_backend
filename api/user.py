@@ -17,6 +17,14 @@ class UserAPI:
     """
     Define the API endpoints for the User model.
     """
+    @token_required()
+    class _Friends(Resource):
+        def get(self):
+            #user = g.current_user
+            #user_data = user.read()
+            #return jsonify({"friends": user_data._friends})
+            return jsonify({"gello": "gello"})
+
     class _BULK_CRUD(Resource):
         """
         Users API operation for bulk Create and Read.
@@ -241,6 +249,7 @@ class UserAPI:
 
 
 # Register the API resources with the Blueprint
+api.add_resource(UserAPI._Friends, '/userfriends')
 api.add_resource(UserAPI._BULK_CRUD, '/users')
 api.add_resource(UserAPI._CRUD, '/user')
 api.add_resource(UserAPI._Security, '/authenticate')
