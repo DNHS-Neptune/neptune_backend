@@ -17,8 +17,9 @@ class UserAPI:
     """
     Define the API endpoints for the User model.
     """
-    @token_required()
+    
     class _Friends(Resource):
+        @token_required()
         def get(self):
             #user = g.current_user
             #user_data = user.read()
