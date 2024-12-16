@@ -59,12 +59,13 @@ class User(db.Model, UserMixin):
     _role = db.Column(db.String(20), default="User", nullable=False)
     _pfp = db.Column(db.String(255), unique=False, nullable=True)
     _car = db.Column(db.String(255), unique=False, nullable=True)
-    _theme_mode = db.Column(db.String(16), nullable=False,)
+    _theme_mode = db.Column(db.String(16), nullable=False)
+    _friends = db.Column(db.String(255), nullable=True)
    
     posts = db.relationship('Post', backref='author', lazy=True)
                                  
     
-    def __init__(self, name, uid, password="", role="User", pfp='', car='', email='?', theme_mode='light' ):
+    def __init__(self, name, uid, password="", role="User", pfp='', car='', email='?', theme_mode='light', friends='[]' ):
         """
         Constructor, 1st step in object creation.
         
@@ -83,6 +84,7 @@ class User(db.Model, UserMixin):
         self._pfp = pfp
         self._car = car
         self._theme_mode = theme_mode
+        self._friends = friends
 
     # UserMixin/Flask-Login requires a get_id method to return the id as a string
     def get_id(self):
@@ -222,6 +224,12 @@ class User(db.Model, UserMixin):
         """
         self._theme_mode= theme_mode
     @property
+    def friends(self):
+        return self._friends
+    @friends.setter
+    def friends(self, friends):
+        self._friends = friends
+    @property
     def password(self):
         """
         Gets the user's password (partially obscured for security).
@@ -353,7 +361,8 @@ class User(db.Model, UserMixin):
             "role": self._role,
             "pfp": self._pfp,
             "car": self._car,
-            "theme_mode": self._theme_mode
+            "theme_mode": self._theme_mode,
+            "friends": self._friends
         }
         return data
         
