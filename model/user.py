@@ -249,6 +249,8 @@ class User(db.Model, UserMixin):
         if not password or password == "":
             password=app.config["DEFAULT_PASSWORD"]
         self._password = generate_password_hash(password, "pbkdf2:sha256", salt_length=10)
+    def set_friends(self, friends):
+        self._friends = friends
 
     def is_password(self, password):
         """
@@ -383,6 +385,7 @@ class User(db.Model, UserMixin):
         uid = inputs.get("uid", "")
         password = inputs.get("password", "")
         pfp = inputs.get("pfp", None)
+        friends = inputs.get("friends", "")
 
         # Update table with new data
         if name:
@@ -391,6 +394,8 @@ class User(db.Model, UserMixin):
             self.set_uid(uid)
         if password:
             self.set_password(password)
+        if friends:
+            self.set_friends(friends)
         if pfp is not None:
             self.pfp = pfp
 
