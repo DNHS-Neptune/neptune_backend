@@ -21,11 +21,18 @@ class UserAPI:
     class _Friends(Resource):
         @token_required()
         def get(self):
-            #user = g.current_user
-            #user_data = user.read()
-            #return jsonify({"friends": user_data._friends})
-            return jsonify({"gello": "gello"})
-
+            user = g.current_user
+            user_data = user.read()
+            return jsonify({"friends": user_data["friends"]})
+        
+        @token_required()
+        def post(self):
+            user = g.current_user
+            data = request.get_json()
+            
+            user.update(data)
+            return jsonify({"response": user.read()})
+        
     class _BULK_CRUD(Resource):
         """
         Users API operation for bulk Create and Read.
