@@ -5,6 +5,7 @@ from datetime import datetime
 from __init__ import app
 from api.jwt_authorize import token_required
 from model.user import User
+import json
 
 # Create a Blueprint for the user API
 user_api = Blueprint('user_api', __name__, url_prefix='/api')
@@ -24,14 +25,6 @@ class UserAPI:
             user = g.current_user
             user_data = user.read()
             return jsonify({"friends": user_data["friends"]})
-        
-        @token_required()
-        def post(self):
-            user = g.current_user
-            data = request.get_json()
-            
-            user.update(data)
-            return jsonify({"response": user.read()})
         
     class _BULK_CRUD(Resource):
         """
@@ -136,7 +129,7 @@ class UserAPI:
             """
             current_user = g.current_user
             body = request.get_json()
-
+            
             # Admin-specific update handling
             if current_user.role == 'Admin':
                 uid = body.get('uid')
