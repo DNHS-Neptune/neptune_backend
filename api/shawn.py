@@ -13,7 +13,7 @@ class ShawnAPI:
                 "classes": ["AP Calculus AB", "AP CSP", "AP Chemistry", "World History", "Photography"],
                 "favorite": {
                     "color": "Blue",
-                    "number": 1
+                    "number": 64
                 }
             })
     
