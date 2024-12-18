@@ -177,12 +177,13 @@ def change_theme():
     dui = values[0]
 
     user = User.query.filter_by(_uid=dui).first()
-    _values = list(data.values())
-    user.update({"_theme_mode": _values[0]})
-
-    return jsonify({
-        "response": "good"
-    }), 200
+    if user:
+        _values = list(data.values())
+        user._theme_mode = _values[0]  # Directly setting the attribute
+        db.session.commit()  # Make sure to commit the transaction
+        return jsonify({"response": "good"}), 200
+    else:
+        return jsonify({"response": "user not found"}), 404
 
 
 genai.configure(api_key="AIzaSyCIY1pCnXbnJ-2JgJOUevQn0SFquMyQ2aI")
