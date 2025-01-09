@@ -43,6 +43,16 @@ def api(name):
                 "number": 64
                 }
             })
+    elif name =='arya':
+        return jsonify({
+            "name": "Arya Savlani",
+            "age": 15,
+            "classes": ["AP Calculus AB", "AP CSP", "AP Chemistry", "World History"],
+            "favorite": {
+                "color": "Blue",
+                "number": 8
+                }
+            })
     else:
         return jsonify({
             "error": "that person isnt sigma!"

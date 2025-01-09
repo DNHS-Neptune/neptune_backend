@@ -357,7 +357,7 @@ SocketIO Configuration
 Example message payload:
 {
     "user": "Nolan",
-    "message": "Kanhay has a crush on Shriyah"
+    "message": "Kanhay is nice"
 }
 '''
 
