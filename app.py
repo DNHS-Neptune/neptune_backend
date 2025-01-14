@@ -60,7 +60,7 @@ def api(name):
             "classes": ["AP Seminar", "AP CSP", "AP Calc AB", "World History"],
             "favorite": {
                 "color": "Green",
-                "number": 8
+                "number": 21
                 }
             })
     else:
