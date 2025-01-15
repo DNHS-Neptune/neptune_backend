@@ -51,7 +51,7 @@ from model.vote import Vote, initVotes
 # server only Views
 
 from model.themes import Theme, initThemes
-
+from model.message import Message, initMessages
 
 # register URIs for api endpoints
 app.register_blueprint(messages_api) # Adi added this, messages for his website
@@ -308,6 +308,7 @@ def generate_data():
     initNestPosts()
     initVotes()
     initThemes()
+    initMessages()
     
 # Backup the old database
 def backup_database(db_uri, backup_uri):
