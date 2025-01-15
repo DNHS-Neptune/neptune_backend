@@ -225,7 +225,7 @@ def ai_homework_help():
     except Exception as e:
         print("error!")
         print(e)
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e)}), 500     # ju poo bDA KLINGO A POO A NEW KAMA KJIT HAAIIII SLIBITISA DOOP A D WIT  bood a a bidaa boop kayy haiiiii  
     
     
 @app.route("/api/classes", methods=["GET"])
