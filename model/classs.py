@@ -5,9 +5,9 @@ class Class(db.Model):
     __tablename__ = 'classes'
 
     id = db.Column(db.Integer, primary_key=True)
-    _period= db.Column(db.String(255), unique=True, nullable=False)
-    _pick= db.Column(db.string(255), unique=True, nullable=False)
-    _user= db.Column(db.String(255), unique=True, nullable=False)
+    _period= db.Column(db.String(255), nullable=False)
+    _pick= db.Column(db.String(255), nullable=False)
+    _user= db.Column(db.String(255), nullable=False)
     
     def __init__(self, period, pick, user):
         """
