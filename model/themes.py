@@ -54,20 +54,54 @@ class Theme(db.Model):
             'theme': self._theme,
             'css': self._css,
         }
-    
+
+    def update(self, inputs):
+            """
+            Updates the channel object with new data.
+            
+            Args:
+                inputs (dict): A dictionary containing the new data for the channel.
+            
+            Returns:
+                Channel: The updated channel object, or None on error.
+            """
+            if not isinstance(inputs, dict):
+                return self
+
+            theme = inputs.get("theme", "")
+            css= inputs.get("css", "")
+            
+            
+
+
+            # Update table with new data
+            if theme:
+                self._theme = theme
+            if theme:
+                self._css = css
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+                return None
+            return self
+            
     @staticmethod
     def restore(data):
         themes = {}
         for theme_data in data:
-            _ = theme_data.pop('id', None)  # Remove 'id' from theme_data and store it in theme_id
+            _ = theme_data.pop('id', None)  # Remove 'id' from theme_data
             css = theme_data.get("css", None)
             theme = Theme.query.filter_by(_css=css).first()
             if theme:
-                theme.update(theme_data)
+                theme = theme.update(theme_data,)  # Call update on the instance
             else:
                 theme = Theme(**theme_data)
                 theme.create()
+            themes[theme._theme] = theme  # Keep track of themes if needed
         return themes
+
+
     
 def initThemes():  
         with app.app_context():
