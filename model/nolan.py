@@ -1,15 +1,13 @@
 from sqlite3 import IntegrityError
 from __init__ import app, db
 
-class Class(db.Model):
-    __tablename__ = 'classes'
+class Nolans(db.Model):
+    __tablename__ = 'nolans'
 
     id = db.Column(db.Integer, primary_key=True)
-    _period= db.Column(db.String(255), nullable=False)
-    _pick= db.Column(db.String(255), nullable=False)
-    _user= db.Column(db.String(255), nullable=False)
+    _name= db.Column(db.String(255), nullable=False)
     
-    def __init__(self, period, pick, user):
+    def __init__(self, name):
         """
         Constructor, 1st step in object creation.
         
@@ -18,13 +16,11 @@ class Class(db.Model):
             section_id (int): The section to which the group belongs.
             moderators (list, optional): A list of classes who are the moderators of the group. Defaults to None.
         """
-        self._period = period
-        self._pick = pick
-        self._user = user
+        self._name = name
         
     @property
-    def content(self):
-        return self._content
+    def name(self):
+        return self._name
     
     def create(self):
         """
@@ -53,9 +49,7 @@ class Class(db.Model):
         """
         return {
             'id': self.id,
-            'pick': self._pick,
-            'period': self._period,
-            'user': self._user,
+            'name': self._name,
         }
     
     @staticmethod
@@ -63,23 +57,24 @@ class Class(db.Model):
         classes = {}
         for class_data in data:
             _ = class_data.pop('id', None)
-            pick = class_data.get("pick", None)
-            message = Class.query.filter_by(_pick=pick).first()
+            name = class_data.get("name", None)
+            message = Nolans.query.filter_by(_name=name).first()
             if message:
                 message.update(class_data)
             else:
-                message = Class(**class_data)
+                message = Nolans(**class_data)
                 message.create()
         return classes
     
-def initNolans():  
+def initClasses():  
         with app.app_context():
                 """Create database and tables"""
                 db.create_all()
                 """Tester data for table"""
                 
-                m1 = Class(user="1", pick="AP World", period="5")
-                classes = [m1]
+                m1 = Nolans(name="Nolan")
+                m2 = Nolans(name="Nolan 2")
+                classes = [m1, m2]
                 
                 for message in classes:
                     try:
