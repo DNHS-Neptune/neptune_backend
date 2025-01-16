@@ -40,7 +40,9 @@ class Message(db.Model):
         except Exception as e:
             db.session.rollback()
             raise e
-
+        
+    def update(self):
+         print("bob")
     
     def read(self):
         """
