@@ -66,7 +66,7 @@ class Nolans(db.Model):
                 message.create()
         return classes
     
-def initClasses():  
+def initNolans():  
         with app.app_context():
                 """Create database and tables"""
                 db.create_all()

@@ -72,7 +72,7 @@ class Class(db.Model):
                 message.create()
         return classes
     
-def initNolans():  
+def initClasses():  
         with app.app_context():
                 """Create database and tables"""
                 db.create_all()
