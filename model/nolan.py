@@ -52,6 +52,31 @@ class Nolans(db.Model):
             'name': self._name,
         }
     
+    def update(self, inputs):
+        """
+        Updates the channel object with new data.
+        
+        Args:
+            inputs (dict): A dictionary containing the new data for the channel.
+        
+        Returns:
+            Channel: The updated channel object, or None on error.
+        """
+        if not isinstance(inputs, dict):
+            return self
+
+        name = inputs.get("name", "")
+
+        # Update table with new data
+        if name:
+            self._name = name
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return None
+        return self
+    
     @staticmethod
     def restore(data):
         classes = {}

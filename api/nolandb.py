@@ -31,8 +31,10 @@ class NolanDBAPI:
         def get():
             try:
                 nolans = Nolans.query.all()
-                return jsonify([nolan.read() for nolan in nolans])
+                print(nolans)
+                return jsonify(nolans)
             except Exception as e:
                 return {"message": f"Error getting nolans: {str(e)}"}, 500
+                
 # Add the route to the API
 api.add_resource(NolanDBAPI.User, '/nolandb')
