@@ -54,34 +54,7 @@ class Theme(db.Model):
             'theme': self._theme,
             'css': self._css,
         }
-    def update(self, inputs):
-        """
-        Updates the section object with new data.
-        
-        Args:
-            inputs (dict): A dictionary containing the new data for the section.
-        
-        Returns:
-            Section: The updated section object, or None on error.
-        """
-        if not isinstance(inputs, dict):
-            return self
-
-        css = inputs.get("css", "")
-        theme = inputs.get("theme", "")
-
-        # Update table with new data
-        if css:
-            self._name = css
-        if theme:
-            self._theme = theme
-
-        try:
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
-            return None
-        return self
+    
     @staticmethod
     def restore(data):
         themes = {}
@@ -95,7 +68,6 @@ class Theme(db.Model):
                 theme = Theme(**theme_data)
                 theme.create()
         return themes
-    
     
 def initThemes():  
         with app.app_context():
