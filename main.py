@@ -337,6 +337,7 @@ def extract_data():
         data['channels'] = [channel.read() for channel in Channel.query.all()]
         data['posts'] = [post.read() for post in Post.query.all()]
         data['themes'] = [theme.read() for theme in Theme.query.all()]
+        data['messages'] = [message.read() for message in Message.query.all()]
     return data
 
 # Save extracted data to JSON files
@@ -351,7 +352,7 @@ def save_data_to_json(data, directory='backup'):
 # Load data from JSON files
 def load_data_from_json(directory='backup'):
     data = {}
-    for table in ['users', 'sections', 'groups', 'channels', 'posts', 'themes']:
+    for table in ['users', 'sections', 'groups', 'channels', 'posts', 'themes', 'messages']:
         with open(os.path.join(directory, f'{table}.json'), 'r') as f:
             data[table] = json.load(f)
     return data
@@ -365,6 +366,7 @@ def restore_data(data):
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
         _ = Theme.restore(data['themes'])
+        _ = Message.restore(data['messages'])
     print("Data restored to the new database.")
 
 # Define a command to backup data
@@ -396,10 +398,16 @@ Example message payload:
 socketio = SocketIO(app, cors_allowed_origins="*")
 @socketio.on('connect')
 def handle_connect():
-    emit('message', {'user': 'Server', 'text': 'Welcome to the chat!'})
+    messages = Message.query.all()
+    for message in messages:
+        emit('chat_message', {"user": message._user, "text": message._content})
+
+    emit('chat_message', {'user': 'Server', 'text': 'Welcome to the chat!'})
 
 @socketio.on('chat_message')
 def handle_chat_message(data):
+    msg = Message(data.get("text"), data.get("user"))
+    msg.create()
     emit('chat_message', data, broadcast=True)
         
 # this runs the flask application on the development server
