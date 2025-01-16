@@ -78,10 +78,14 @@ def initClasses():
                 db.create_all()
                 """Tester data for table"""
                 
-                m1 = Class(user="1", pick="AP World", period="5")
-                classes = [m1]
+        m1 = Class(user="1", pick="AP World", period="5")
+        m2 = Class(user="2", pick="AP Calculus", period="1")
+        m3 = Class(user="3", pick="Biology", period="3")
+        m4 = Class(user="4", pick="Physics", period="4")
+
+        classes = [m1, m2, m3, m4]
                 
-                for message in classes:
+        for message in classes:
                     try:
                         message.create()
                     except IntegrityError:
