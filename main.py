@@ -54,6 +54,7 @@ from model.themes import Theme, initThemes
 from model.message import Message, initMessages
 from model.classs import Class, initClasses
 from model.nolan import Nolans, initNolans
+from model.poseidon import PoseidonChatLog, initPoseidonChatLogs 
 
 # register URIs for api endpoints
 app.register_blueprint(messages_api) # Adi added this, messages for his website
@@ -313,6 +314,7 @@ def generate_data():
     initMessages()
     initClasses()
     initNolans()
+    initPoseidonChatLogs()
     
 # Backup the old database
 def backup_database(db_uri, backup_uri):
