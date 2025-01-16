@@ -194,17 +194,6 @@ def change_theme():
         return jsonify({"response": "user not found"}), 404
 
 
-
-# Database model
-class PoseidonLog(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    question = db.Column(db.String(500), nullable=False)
-    response = db.Column(db.String(2000), nullable=False)
-
-# Create database tables
-with app.app_context():
-    db.create_all()
-
 # AI configuration
 genai.configure(api_key="AIzaSyC72oIjvpKm_fdl3Dez-fHi_nXZ48IAJI0")
 model = genai.GenerativeModel('gemini-pro')
@@ -221,9 +210,8 @@ def ai_homework_help():
         response_text = response.text
 
         # Save to database
-        new_entry = PoseidonLog(question=question, response=response_text)
-        db.session.add(new_entry)
-        db.session.commit()
+        new_entry = PoseidonChatLog(question=question, response=response_text)
+        new_entry.create()
 
         return jsonify({"response": response_text}), 200
     except Exception as e:
