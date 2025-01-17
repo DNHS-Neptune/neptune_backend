@@ -1,3 +1,4 @@
+import logging
 from sqlite3 import IntegrityError
 from __init__ import app, db
 
@@ -53,6 +54,28 @@ class PoseidonChatLog(db.Model):
             'question': self._question,
             'response': self._response,
         }
+        
+        
+    def update(self, updates):
+        # Extract the updated values from the dictionary
+        question = updates.get('question', None)
+        response = updates.get('response', None)
+
+        # Update attributes if new values are provided
+        if question:
+            self._question = question
+        if response:
+            self._response = response
+
+        # Attempt to commit the changes to the database
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            logging.warning(f"IntegrityError: Could not update chat log with ID '{self.id}'.")
+            return None
+
+        return self
 
     @staticmethod
     def restore(data):
