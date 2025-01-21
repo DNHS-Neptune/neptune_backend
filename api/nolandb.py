@@ -8,7 +8,7 @@ nolandb_api = Blueprint('nolandb_api', __name__, url_prefix='/api')
 api = Api(nolandb_api)
 
 class NolanDBAPI:
-    class User(Resource):
+    class CRUD(Resource):
         @staticmethod
         def post():
             try:
@@ -35,6 +35,31 @@ class NolanDBAPI:
                 return jsonify(nolans)
             except Exception as e:
                 return {"message": f"Error getting nolans: {str(e)}"}, 500
+            
+        def put(self):
+            data = request.get_json()
+            if data is None:
+                return {'message': 'Post data not found'}, 400
+            
+            nolan = Nolans.query.get(data['id'])
+            if nolan is None:
+                return {'message': 'Nolan not found'}, 404
+            
+            nolan._name = data['name']
+            nolan.update()
+            return jsonify(nolan.read())
+        
+        def delete(self):
+            data = request.get_json()
+            if data is None:
+                return {'message': 'Post data not found'}, 400
+            
+            nolan = Nolans.query.get(data['id'])
+            if nolan is None:
+                return {'message': 'Nolan not found'}, 404
+            
+            nolan.delete()
+            return jsonify({"message": "Nolan deleted"})
                 
 # Add the route to the API
-api.add_resource(NolanDBAPI.User, '/nolandb')
+api.add_resource(NolanDBAPI.CRUD, '/nolandb')

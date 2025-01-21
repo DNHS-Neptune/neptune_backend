@@ -77,6 +77,23 @@ class Nolans(db.Model):
             return None
         return self
     
+    def delete(self):
+        """
+        The delete method removes the object from the database and commits the transaction.
+        
+        Uses:
+            The db ORM methods to delete and commit the transaction.
+        
+        Raises:
+            Exception: An error occurred when deleting the object from the database.
+        """
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
+    
     @staticmethod
     def restore(data):
         classes = {}
