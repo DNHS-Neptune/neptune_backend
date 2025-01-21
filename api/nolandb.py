@@ -41,8 +41,7 @@ class NolanDBAPI:
             if nolan is None:
                 return {'message': 'Nolan not found'}, 404
             
-            nolan._name = data['name']
-            nolan.update()
+            nolan.update({"name": data['name']})
             return jsonify(nolan.read())
         
         def delete(self):
