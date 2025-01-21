@@ -41,8 +41,26 @@ class Message(db.Model):
             db.session.rollback()
             raise e
         
-    def update(self):
-         print("bob")
+    def update(self, inputs):
+        if not isinstance(inputs, dict):
+            return self
+
+        content = inputs.get("content", "")
+        user = inputs.get("user", "")
+
+        # Update table with new data
+        if content:
+            self._content = content
+            
+        if user:
+            self._user = user
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return None
+        return self
     
     def read(self):
         """
