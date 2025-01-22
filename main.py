@@ -222,7 +222,19 @@ def ai_homework_help():
         print("error!")
         print(e)
         return jsonify({"error": str(e)}), 500     # ju poo bDA KLINGO A POO A NEW KAMA KJIT HAAIIII SLIBITISA DOOP A D WIT  bood a a bidaa boop kayy haiiiii  
+
+@app.route("/api/ai/delete", methods=["DELETE"])
+def delete_ai_chat_logs():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided."}), 400
     
+    log = PoseidonChatLog.query.filter_by(_question=data.get("question", "")).first()
+    if not log:
+        return jsonify({"error": "Chat log not found."}), 404
+    
+    log.delete()
+    return jsonify({"response": "Chat log deleted"}), 200
     
 @app.route("/api/classes", methods=["GET"])
 def class_list():
@@ -356,7 +368,7 @@ def load_data_from_json(directory='backup'):
 # Restore data to the new database
 def restore_data(data):
     with app.app_context():
-        logs = PoseidonChatLog.restore(data['poseidon_chat_logs'])
+        _ = PoseidonChatLog.restore(data['poseidon_chat_logs'])
         users = User.restore(data['users'])
         _ = Section.restore(data['sections'])
         _ = Group.restore(data['groups'], users)

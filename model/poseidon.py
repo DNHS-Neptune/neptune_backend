@@ -76,6 +76,14 @@ class PoseidonChatLog(db.Model):
             return None
 
         return self
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
 
     @staticmethod
     def restore(data):
