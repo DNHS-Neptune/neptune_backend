@@ -375,7 +375,7 @@ def restore_data(data):
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
         _ = Theme.restore(data['themes'])
-        _ = Message.restore(data['messages'])
+        # _ = Message.restore(data['messages'])
     print("Data restored to the new database.")
 
 # Define a command to backup data

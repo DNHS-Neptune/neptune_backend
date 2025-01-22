@@ -5,25 +5,38 @@ class Theme(db.Model):
     __tablename__ = 'themes'
 
     id = db.Column(db.Integer, primary_key=True)
-    _theme= db.Column(db.String(255), unique=True, nullable=False)
-    _css= db.Column(db.String(255), unique=True, nullable=False)
+    _theme = db.Column(db.String(255), unique=True, nullable=False)
+    _css = db.Column(db.String(255), unique=True, nullable=False)
     
     def __init__(self, theme, css):
         """
         Constructor, 1st step in object creation.
         
         Args:
-            name (str): The name of the group.
-            section_id (int): The section to which the group belongs.
-            moderators (list, optional): A list of themes who are the moderators of the group. Defaults to None.
+            theme (str): The name of the theme.
+            css (str): The CSS associated with the theme.
         """
-        self._theme=theme
+        self._theme = theme
         self._css = css
         
     @property
     def theme(self):
         return self._theme
-    
+
+    def delete(self):
+        """
+        Removes the theme object from the database and commits the transaction.
+        
+        Returns:
+            None
+        """
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except IntegrityError as e:
+            db.session.rollback()
+            raise e
+
     def create(self):
         """
         The create method adds the object to the database and commits the transaction.
@@ -41,13 +54,12 @@ class Theme(db.Model):
             db.session.rollback()
             raise e
 
-    
     def read(self):
         """
         The read method retrieves the object data from the object's attributes and returns it as a dictionary.
         
         Returns:
-            dict: A dictionary containing the group data.
+            dict: A dictionary containing the theme data.
         """
         return {
             'id': self.id,
@@ -56,36 +68,33 @@ class Theme(db.Model):
         }
 
     def update(self, inputs):
-            """
-            Updates the channel object with new data.
-            
-            Args:
-                inputs (dict): A dictionary containing the new data for the channel.
-            
-            Returns:
-                Channel: The updated channel object, or None on error.
-            """
-            if not isinstance(inputs, dict):
-                return self
-
-            theme = inputs.get("theme", "")
-            css= inputs.get("css", "")
-            
-            
-
-
-            # Update table with new data
-            if theme:
-                self._theme = theme
-            if theme:
-                self._css = css
-            try:
-                db.session.commit()
-            except IntegrityError:
-                db.session.rollback()
-                return None
+        """
+        Updates the theme object with new data.
+        
+        Args:
+            inputs (dict): A dictionary containing the new data for the theme.
+        
+        Returns:
+            Theme: The updated theme object, or None on error.
+        """
+        if not isinstance(inputs, dict):
             return self
-            
+
+        theme = inputs.get("theme", "")
+        css = inputs.get("css", "")
+
+        # Update table with new data
+        if theme:
+            self._theme = theme
+        if css:
+            self._css = css
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return None
+        return self
+
     @staticmethod
     def restore(data):
         themes = {}
@@ -94,28 +103,26 @@ class Theme(db.Model):
             css = theme_data.get("css", None)
             theme = Theme.query.filter_by(_css=css).first()
             if theme:
-                theme = theme.update(theme_data,)  # Call update on the instance
+                theme = theme.update(theme_data)  # Call update on the instance
             else:
                 theme = Theme(**theme_data)
                 theme.create()
             themes[theme._theme] = theme  # Keep track of themes if needed
         return themes
 
-
-    
 def initThemes():  
-        with app.app_context():
-                """Create database and tables"""
-                db.create_all()
-                """Tester data for table"""
-                
-                t1 = Theme(theme='Red', css="testpath1")
-                t2 = Theme(theme='Green', css="testpath2")
-                themes = [t1, t2]
-                
-                for theme in themes:
-                    try:
-                        theme.create()
-                    except IntegrityError:
-                        '''fails with bad or duplicate data'''
-                        db.session.remove()
+    with app.app_context():
+        """Create database and tables"""
+        db.create_all()
+        """Tester data for table"""
+        
+        t1 = Theme(theme='Red', css="testpath1")
+        t2 = Theme(theme='Green', css="testpath2")
+        themes = [t1, t2]
+        
+        for theme in themes:
+            try:
+                theme.create()
+            except IntegrityError:
+                '''fails with bad or duplicate data'''
+                db.session.rollback()
