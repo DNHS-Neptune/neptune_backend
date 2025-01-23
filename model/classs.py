@@ -58,6 +58,29 @@ class Class(db.Model):
             'user': self._user,
         }
     
+    def update(self, inputs):
+        if not isinstance(inputs, dict):
+            return self
+
+        pick = inputs.get("pick", "")
+        period = inputs.get("period", "")
+        user = inputs.get("user", "")
+
+        # Update table with new data
+        if pick:
+            self._pick = pick
+        if period:
+            self._period = period
+        if user:
+            self._user = user
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return None
+        return self
+    
     @staticmethod
     def restore(data):
         classes = {}
@@ -74,22 +97,21 @@ class Class(db.Model):
     
 def initClasses():  
         with app.app_context():
-                """Create database and tables"""
-                db.create_all()
-                """Tester data for table"""
+            """Create database and tables"""
+            db.create_all()
+            """Tester data for table"""
                 
-        m1 = Class(user="1", pick="AP World", period="5")
-        m2 = Class(user="2", pick="AP Calculus", period="1")
-        m3 = Class(user="3", pick="Biology", period="3")
-        m4 = Class(user="4", pick="Physics", period="4")
+            m1 = Class(user="1", pick="AP World", period="5")
+            m2 = Class(user="2", pick="AP Calculus", period="1")
+            m3 = Class(user="3", pick="Biology", period="3")
+            m4 = Class(user="4", pick="Physics", period="4")
 
-        classes = [m1, m2, m3, m4]
+            classes = [m1, m2, m3, m4]
                 
-        for message in classes:
+            for message in classes:
                     try:
                         message.create()
                     except IntegrityError:
-                        '''fails with bad or duplicate data'''
                         db.session.remove()
 
 def update(self, inputs):
