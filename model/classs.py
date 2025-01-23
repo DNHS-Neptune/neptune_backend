@@ -91,3 +91,42 @@ def initClasses():
                     except IntegrityError:
                         '''fails with bad or duplicate data'''
                         db.session.remove()
+
+def update(self, inputs):
+    """
+    Updates the Class object with new data.
+    
+    Args:
+        inputs (dict): A dictionary containing the new data for the Class object.
+    
+    Returns:
+        Class: The updated Class object, or None if an error occurs.
+    """
+    if not isinstance(inputs, dict):
+        raise ValueError("Inputs must be a dictionary.")
+
+    # Extract fields from inputs
+    period = inputs.get("_period")  # Match column name
+    pick = inputs.get("_pick")      # Match column name
+    user = inputs.get("_user")      # Match column name
+
+    # Update fields only if provided
+    if period:
+        self._period = period
+    if pick:
+        self._pick = pick
+    if user:
+        self._user = user
+
+    try:
+        db.session.commit()
+        return self
+    except IntegrityError as e:
+        db.session.rollback()
+        print(f"IntegrityError: {e}")
+        return None
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred: {e}")
+        return None
+

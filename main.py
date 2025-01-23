@@ -40,6 +40,7 @@ from api.yash import yash_api
 from api.shawn import shawn_api
 
 from api.nolandb import nolandb_api
+from api.classs import class_api
 
 from api.vote import vote_api
 # database Initialization functions
@@ -83,6 +84,7 @@ app.register_blueprint(yash_api)
 app.register_blueprint(shawn_api)
 
 app.register_blueprint(nolandb_api)
+app.register_blueprint(class_api)
 
 
 # Tell Flask-Login the view function name of your login route
