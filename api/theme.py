@@ -99,7 +99,7 @@ class ThemeUpdateAPI(Resource):
             return {"message": f"Error occurred: {str(e)}"}, 500
 class ThemeReadAPI(Resource):
     @staticmethod
-    def get():
+    def post():
         try:
             # Parse the JSON body
             body = request.get_json()
@@ -119,7 +119,7 @@ class ThemeReadAPI(Resource):
 
                 if read_theme:
                     return {
-                        "message": f"CSS for {theme_name} is {css_value} "}, 200
+                        "css":css_value}, 200
             else:
                 return {"message": "Theme not found."}, 404
         except Exception as e:
