@@ -88,11 +88,8 @@ app.register_blueprint(yash_api)
 app.register_blueprint(shawn_api)
 
 app.register_blueprint(nolandb_api)
-<<<<<<< Updated upstream
 app.register_blueprint(class_api)
-=======
 app.register_blueprint(sports_api)
->>>>>>> Stashed changes
 
 
 # Tell Flask-Login the view function name of your login route
