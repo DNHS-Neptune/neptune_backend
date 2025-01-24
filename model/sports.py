@@ -111,14 +111,15 @@ class Sports(db.Model):
         return classes
 
     
-def initAkshajs():  
+def initSports():  
         with app.app_context():
                 """Create database and tables"""
                 db.create_all()
                 """Tester data for table"""
                 
-                m1 = Sports(name="Football", emoji="")
-                m2 = Sports(name="Soccer", emoji="")
+                m1 = Sports(name="Football", emoji="🏈")
+                m2 = Sports(name="Soccer", emoji="⚽️")
+                m3 = Sports(name="", emoji="")
                 classes = [m1, m2]
                 
                 for message in classes:

@@ -31,6 +31,7 @@ from api.messages_api import messages_api # Adi added this, messages for his web
 from api.carphoto import car_api
 from api.carChat import car_chat_api
 from api.theme import theme_api
+from api.nolandb import nolandb_api
 
 from api.akshaj import akshaj_api
 from api.kanhay import kanhay_api
@@ -38,6 +39,7 @@ from api.nolan import nolan_api
 from api.arya import arya_api
 from api.yash import yash_api
 from api.shawn import shawn_api
+from api.sport import sports_api
 
 from api.nolandb import nolandb_api
 from api.classs import class_api
@@ -60,6 +62,8 @@ from model.classs import Class, initClasses
 from model.nolan import Nolans, initNolans
 from model.poseidon import PoseidonChatLog, initPoseidonChatLogs 
 from model.akshaj import Akshajs, initAkshajs
+from model.sports import Sports, initSports
+
 
 # register URIs for api endpoints
 app.register_blueprint(messages_api) # Adi added this, messages for his website
@@ -84,7 +88,11 @@ app.register_blueprint(yash_api)
 app.register_blueprint(shawn_api)
 
 app.register_blueprint(nolandb_api)
+<<<<<<< Updated upstream
 app.register_blueprint(class_api)
+=======
+app.register_blueprint(sports_api)
+>>>>>>> Stashed changes
 
 
 # Tell Flask-Login the view function name of your login route
@@ -324,6 +332,7 @@ def generate_data():
     initNolans()
     initPoseidonChatLogs()
     initAkshajs()
+    initSports()
     
 # Backup the old database
 def backup_database(db_uri, backup_uri):
