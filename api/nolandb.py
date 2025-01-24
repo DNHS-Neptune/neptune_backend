@@ -9,7 +9,6 @@ api = Api(nolandb_api)
 
 class NolanDBAPI:
     class User(Resource):
-        @staticmethod
         def post():
             try:
                 # Get request body
