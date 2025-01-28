@@ -9,7 +9,7 @@ api = Api(nolandb_api)
 
 class NolanDBAPI:
     class User(Resource):
-        def post():
+        def post(self):
             try:
                 # Get request body
                 body = request.get_json()
