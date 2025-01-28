@@ -356,6 +356,7 @@ def extract_data():
         data['themes'] = [theme.read() for theme in Theme.query.all()]
         data['messages'] = [message.read() for message in Message.query.all()]
         data['classes'] = [classs.read() for classs in Class.query.all()]
+        data['sports'] = [sports.read() for sports in Sports.query.all()]
     return data
 
 # Save extracted data to JSON files

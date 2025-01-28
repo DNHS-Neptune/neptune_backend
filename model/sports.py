@@ -96,10 +96,10 @@ def initSports():
             db.create_all()
             """Tester data for table"""
                 
-            m1 = Sports(user="1", sport="Basketball", emoji="⚽️")
-            m2 = Sports(user="2", sport="Tennis", emoji="🎾")
-            m3 = Sports(user="3", sport="Soccer", emoji="⚽️")
-            m4 = Sports(user="4", sport="Football", emoji="🏈")
+            m1 = Sports(sport="Basketball", emoji="⚽️")
+            m2 = Sports(sport="Tennis", emoji="🎾")
+            m3 = Sports(sport="Soccer", emoji="⚽️")
+            m4 = Sports(sport="Football", emoji="🏈")
 
             sports = [m1, m2, m3, m4]
                 

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from __init__ import app, db
-from model.classs import Class
+from model.sports import Sports
 
 # Create Blueprint and API
 sports_api = Blueprint('sports_api', __name__, url_prefix='/api')
@@ -23,7 +23,7 @@ class SportAPI:
 
 
                 # Create a new period
-                new_sport = Class(sport=sport, emoji=emoji)
+                new_sport = Sports(sport=sport, emoji=emoji)
                 new_sport.create()
 
                 # Return success response
@@ -35,7 +35,7 @@ class SportAPI:
         @staticmethod
         def get():
             try:
-                sports = Class.query.all()
+                sports = Sports.query.all()
                 return [sport_item.read() for sport_item in sports], 200
             except Exception as e:
                 return {"message": f"Error fetching sports: {str(e)}"}, 500
@@ -47,11 +47,11 @@ class SportAPI:
             if data is None:
                 return {'message': 'Post data not found'}, 400
             
-            sports = Class.query.get(data['id'])
+            sports = Sports.query.get(data['id'])
             if sports is None:
                 return {'message': 'sport not found'}, 404
             
-            sports._pick = data["pick"]
+            sports._emoji = data["emoji"]
             db.session.commit()
             return jsonify(sports.read())
         
@@ -64,7 +64,7 @@ class SportAPI:
                 if not body or 'id' not in body:
                     return {"message": "Invalid request. ID is required."}, 400
 
-                sport_to_delete = Class.query.get(body['id'])
+                sport_to_delete = Sports.query.get(body['id'])
                 if not sport_to_delete:
                     return {"message": "sport not found."}, 404
 
@@ -75,4 +75,4 @@ class SportAPI:
             except Exception as e:
                 return {"message": f"Error deleting sport: {str(e)}"}, 500
 # Add the route to the API
-api.add_resource(SportAPI.AddSport, '/sport')
+api.add_resource(SportAPI.AddSport, '/sports/add')
