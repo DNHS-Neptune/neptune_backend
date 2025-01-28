@@ -58,7 +58,7 @@ class Sports(db.Model):
     def update(self, inputs):
         if not isinstance(inputs, dict):
             return self
-
+        
         sport = inputs.get("sport", "")
         emoji = inputs.get("emoji", "")
 

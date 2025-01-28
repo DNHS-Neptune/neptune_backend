@@ -371,7 +371,7 @@ def save_data_to_json(data, directory='backup'):
 # Load data from JSON files
 def load_data_from_json(directory='backup'):
     data = {}
-    for table in ['poseidon_chat_logs', 'users', 'sections', 'groups', 'channels', 'posts', 'themes', 'messages', 'classes']:
+    for table in ['poseidon_chat_logs', 'users', 'sections', 'groups', 'channels', 'posts', 'themes', 'messages', 'classes', 'sports']:
         with open(os.path.join(directory, f'{table}.json'), 'r') as f:
             data[table] = json.load(f)
     return data
