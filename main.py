@@ -92,6 +92,7 @@ app.register_blueprint(class_api)
 app.register_blueprint(sports_api)
 
 
+
 # Tell Flask-Login the view function name of your login route
 login_manager.login_view = "login"
 
