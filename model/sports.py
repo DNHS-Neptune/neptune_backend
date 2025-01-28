@@ -5,10 +5,10 @@ class Sports(db.Model):
     __tablename__ = 'sports'
 
     id = db.Column(db.Integer, primary_key=True)
-    _name= db.Column(db.String(255), nullable=False)
+    _sport= db.Column(db.String(255), nullable=False)
     _emoji = db.Column(db.String(255), nullable=False)
     
-    def __init__(self, name, emoji):
+    def __init__(self, sport, emoji):
         """
         Constructor, 1st step in object creation.
         
@@ -17,8 +17,12 @@ class Sports(db.Model):
             section_id (int): The section to which the group belongs.
             moderators (list, optional): A list of classes who are the moderators of the group. Defaults to None.
         """
-        self._name = name
+        self._sport = sport
         self._emoji = emoji
+    
+    @property
+    def content(self):
+        return self._content
     
     def create(self):
         """
@@ -47,31 +51,24 @@ class Sports(db.Model):
         """
         return {
             'id': self.id,
-            'name': self._name,
-            'emoji': self._emoji
+            'sport': self._sport,
+            'emoji': self._emoji,
         }
     
     def update(self, inputs):
-        """
-        Updates the channel object with new data.
-        
-        Args:
-            inputs (dict): A dictionary containing the new data for the channel.
-        
-        Returns:
-            Channel: The updated channel object, or None on error.
-        """
         if not isinstance(inputs, dict):
             return self
 
-        name = inputs.get("name", "")
+        sport = inputs.get("sport", "")
         emoji = inputs.get("emoji", "")
 
+
         # Update table with new data
-        if name:
-            self._name = name
+        if sport:
+            self._sport = sport
         if emoji:
             self._emoji = emoji
+
         try:
             db.session.commit()
         except IntegrityError:
@@ -79,52 +76,71 @@ class Sports(db.Model):
             return None
         return self
     
-    def delete(self):
-        """
-        The delete method removes the object from the database and commits the transaction.
-        
-        Uses:
-            The db ORM methods to delete and commit the transaction.
-        
-        Raises:
-            Exception: An error occurred when deleting the object from the database.
-        """
-        try:
-            db.session.delete(self)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise e
-        
     @staticmethod
     def restore(data):
-        classes = {}
-        for class_data in data:
-            _ = class_data.pop('id', None)
-            name = class_data.get("name", None)
-            message = Sports.query.filter_by(_name=name).first()
+        sports = {}
+        for sport_data in data:
+            _ = sport_data.pop('id', None)
+            emoji = sport_data.get("emoji", None)
+            message = Sports.query.filter_by(_emoji=emoji).first()
             if message:
-                message.update(class_data)
+                message.update(sport_data)
             else:
-                message = Sports(**class_data)
+                message = Sports(**sport_data)
                 message.create()
-        return classes
-
+        return sports
     
 def initSports():  
         with app.app_context():
-                """Create database and tables"""
-                db.create_all()
-                """Tester data for table"""
+            """Create database and tables"""
+            db.create_all()
+            """Tester data for table"""
                 
-                m1 = Sports(name="Football", emoji="🏈")
-                m2 = Sports(name="Soccer", emoji="⚽️")
-                m3 = Sports(name="", emoji="")
-                classes = [m1, m2]
+            m1 = Sports(user="1", sport="Basketball", emoji="⚽️")
+            m2 = Sports(user="2", sport="Tennis", emoji="🎾")
+            m3 = Sports(user="3", sport="Soccer", emoji="⚽️")
+            m4 = Sports(user="4", sport="Football", emoji="🏈")
+
+            sports = [m1, m2, m3, m4]
                 
-                for message in classes:
+            for message in sports:
                     try:
                         message.create()
                     except IntegrityError:
-                        '''fails with bad or duplicate data'''
                         db.session.remove()
+
+def update(self, inputs):
+    """
+    Updates the Class object with new data.
+    
+    Args:
+        inputs (dict): A dictionary containing the new data for the Class object.
+    
+    Returns:
+        Class: The updated Class object, or None if an error occurs.
+    """
+    if not isinstance(inputs, dict):
+        raise ValueError("Inputs must be a dictionary.")
+
+    # Extract fields from inputs
+    sport = inputs.get("_sport")  # Match column name
+    emoji = inputs.get("_emoji")      # Match column name
+
+    # Update fields only if provided
+    if sport:
+        self._sport = sport
+    if emoji:
+        self._emoji = emoji
+        
+    try:
+        db.session.commit()
+        return self
+    except IntegrityError as e:
+        db.session.rollback()
+        print(f"IntegrityError: {e}")
+        return None
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred: {e}")
+        return None
+

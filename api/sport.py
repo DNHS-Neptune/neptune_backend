@@ -1,61 +1,78 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from __init__ import app, db
-from model.sports import Sports
+from model.classs import Class
 
 # Create Blueprint and API
 sports_api = Blueprint('sports_api', __name__, url_prefix='/api')
 api = Api(sports_api)
 
-class SportsAPI:
-    class User(Resource):
+class SportAPI:
+    class AddSport(Resource):
         @staticmethod
         def post():
             try:
                 # Get request body
                 body = request.get_json()
                 
-                if not body or 'name' not in body:
-                    return {"message": "Invalid request. name is required."}, 400
+                if not body or 'sport' not in body or 'emoji' not in body:
+                    return {"message": "Invalid request. all 3 categories  are required."}, 400
                 
-                name = body["name"]
-                emoji = body["emoji"]
+                sport = body['sport']
+                emoji = body['emoji']
 
-                new_sport = Sports(name=name, emoji=emoji)
+
+                # Create a new period
+                new_sport = Class(sport=sport, emoji=emoji)
                 new_sport.create()
 
                 # Return success response
                 return new_sport.read(), 201
             except Exception as e:
-                return {"message": f"Error adding sport: {str(e)}"}, 500
-        
-        def get(self):
-            sports = Sports.query.all()
-            return jsonify([sport.read() for sport in sports])
+                return {"message": f"Error adding class: {str(e)}"}, 500
             
-        def put(self):
+# READ (GET) - Fetch all classes
+        @staticmethod
+        def get():
+            try:
+                sports = Class.query.all()
+                return [sport_item.read() for sport_item in sports], 200
+            except Exception as e:
+                return {"message": f"Error fetching sports: {str(e)}"}, 500
+
+        # UPDATE (PUT)
+        @staticmethod
+        def put():
             data = request.get_json()
             if data is None:
                 return {'message': 'Post data not found'}, 400
             
-            sport = Sports.query.get(data['id'])
-            if sport is None:
-                return {'message': 'Sport not found'}, 404
+            sports = Class.query.get(data['id'])
+            if sports is None:
+                return {'message': 'sport not found'}, 404
             
-            sport.update({"name": data['name']})
-            return jsonify(sport.read())
+            sports._pick = data["pick"]
+            db.session.commit()
+            return jsonify(sports.read())
         
-        def delete(self):
-            data = request.get_json()
-            if data is None:
-                return {'message': 'Post data not found'}, 400
-            
-            sport = Sports.query.get(data['id'])
-            if sport is None:
-                return {'message': 'Sport not found'}, 404
-            
-            sport.delete()
-            return jsonify({"message": "Sport deleted"})
-                
+
+        # DELETE (DELETE)
+        @staticmethod
+        def delete():
+            try:
+                body = request.get_json()
+                if not body or 'id' not in body:
+                    return {"message": "Invalid request. ID is required."}, 400
+
+                sport_to_delete = Class.query.get(body['id'])
+                if not sport_to_delete:
+                    return {"message": "sport not found."}, 404
+
+                db.session.delete(sport_to_delete)
+                db.session.commit()
+
+                return {"message": "Sport deleted successfully."}, 200
+            except Exception as e:
+                return {"message": f"Error deleting sport: {str(e)}"}, 500
 # Add the route to the API
-api.add_resource(SportsAPI.User, '/sports')
+api.add_resource(SportAPI.AddSport, '/sport')
