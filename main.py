@@ -448,11 +448,12 @@ def handle_chat_update(data):
         return emit("error", {"message": "Invalid data: 'id' and 'content' are required"}, broadcast=False)
 
     msg = Message.query.get(message_id)
+    print("msg", msg.read())
     if msg is None:
         return emit("error", {"message": "Message not found"}, broadcast=False)
     
     msg.update({"content": new_content})
-    return emit("chat_up", {"data": msg.read()})
+    return emit("chat_up", {"data": msg.read()}, broadcast=True)
 
         
 # this runs the flask application on the development server
