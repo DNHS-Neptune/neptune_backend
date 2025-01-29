@@ -51,7 +51,7 @@ class Message(db.Model):
         # Update table with new data
         if content:
             self._content = content
-            
+
         if user:
             self._user = user
 
@@ -61,6 +61,14 @@ class Message(db.Model):
             db.session.rollback()
             return None
         return self
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
     
     def read(self):
         """

@@ -307,6 +307,7 @@ def add_img_to_post():
     return jsonify({"response": "Image added to post"}), 200
 
 
+
 @app.route('/nolanuploads/<path:filename>')
 def static_uploaded_file(filename):
     return send_from_directory('nolanuploads', filename)
@@ -421,17 +422,41 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 def handle_connect():
     messages = Message.query.all()
     for message in messages:
-        emit('chat_message', {"user": message._user, "text": message._content})
+        emit('chat_message', {"user": message._user, "text": message._content, "id": message.id})
 
     emit('chat_message', {'user': 'Server', 'text': 'Welcome to the chat!'})
 
 @socketio.on('chat_message')
 def handle_chat_message(data):
-    msg = Message(data.get("text"), data.get("user"))
+    msg = Message(data["text"], data["user"])
     msg.create()
     emit('chat_message', data, broadcast=True)
+
+@socketio.on('chat_delete')
+def handle_chat_delete(data):
+    msg = Message.query.get(data["id"])
+    msg.delete()
+    emit('chat_del', {"id": data["id"]}, broadcast=True)
+
+@socketio.on('chat_update')
+def handle_chat_update(data):
+    # Extract and validate input
+    message_id = data.get("id")
+    new_content = data.get("content")
+
+    if not message_id or not new_content:
+        return emit("error", {"message": "Invalid data: 'id' and 'content' are required"}, broadcast=False)
+
+    msg = Message.query.get(message_id)
+    if msg is None:
+        return emit("error", {"message": "Message not found"}, broadcast=False)
+    
+    msg.update({"content": new_content})
+    return emit("chat_up", {"data": msg.read()})
+
         
 # this runs the flask application on the development server
 if __name__ == "__main__":
     # change name for testing
     app.run(debug=True, host="0.0.0.0", port="8887")
+
