@@ -2,6 +2,9 @@ from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 from __init__ import app, db
 from model.classs import Class
+from model.user import User
+from api.jwt_authorize import token_required
+from flask import Blueprint, request, jsonify, current_app, Response, g
 
 # Create Blueprint and API
 class_api = Blueprint('class_api', __name__, url_prefix='/api')
@@ -9,27 +12,29 @@ api = Api(class_api)
 
 class ClassAPI:
     class AddClass(Resource):
-        @staticmethod
+        @token_required()
         def post():
-            try:
-                # Get request body
-                body = request.get_json()
-                
-                if not body or 'period' not in body or 'user' not in body or  'pick' not in body:
-                    return {"message": "Invalid request. all 3 categories  are required."}, 400
-                
-                period = body['period']
-                pick = body['pick']
-                user = body['user']
+            current_user = g.current_user  # Get the logged-in user
 
-                # Create a new period
-                new_class = Class(period=period, pick=pick, user=user)
+            data = request.get_json()
+
+            try:
+                # Validate request data
+                if 'pick' not in data:
+                    return {"message": "Invalid request. 'pick' is required."}, 400
+
+                user = User.query.filter_by(_uid=current_user.uid).first()  # Fetch user by uid
+                if user is None:
+                    return {"message": "User not found."}, 404  # Handle the case if user doesn't exist
+                
+                # Create a new class entry with the logged-in user's ID
+                new_class = Class(data['pick'], current_user.name)  # Use user_id instead of 'user'
                 new_class.create()
 
-                # Return success response
                 return new_class.read(), 201
             except Exception as e:
                 return {"message": f"Error adding class: {str(e)}"}, 500
+
             
 # READ (GET) - Fetch all classes
         @staticmethod

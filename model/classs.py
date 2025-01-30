@@ -5,11 +5,10 @@ class Class(db.Model):
     __tablename__ = 'classes'
 
     id = db.Column(db.Integer, primary_key=True)
-    _period= db.Column(db.String(255), nullable=False)
     _pick= db.Column(db.String(255), nullable=False)
     _user= db.Column(db.String(255), nullable=False)
     
-    def __init__(self, period, pick, user):
+    def __init__(self, pick, user):
         """
         Constructor, 1st step in object creation.
         
@@ -18,7 +17,6 @@ class Class(db.Model):
             section_id (int): The section to which the group belongs.
             moderators (list, optional): A list of classes who are the moderators of the group. Defaults to None.
         """
-        self._period = period
         self._pick = pick
         self._user = user
         
@@ -54,7 +52,6 @@ class Class(db.Model):
         return {
             'id': self.id,
             'pick': self._pick,
-            'period': self._period,
             'user': self._user,
         }
     
@@ -63,14 +60,11 @@ class Class(db.Model):
             return self
 
         pick = inputs.get("pick", "")
-        period = inputs.get("period", "")
         user = inputs.get("user", "")
 
         # Update table with new data
         if pick:
             self._pick = pick
-        if period:
-            self._period = period
         if user:
             self._user = user
 
@@ -100,14 +94,39 @@ def initClasses():
             """Create database and tables"""
             db.create_all()
             """Tester data for table"""
-                
-            m1 = Class(user="1", pick="AP World", period="5")
-            m2 = Class(user="2", pick="AP Calculus", period="1")
-            m3 = Class(user="3", pick="Biology", period="3")
-            m4 = Class(user="4", pick="Physics", period="4")
+        
+            classes = [
+                Class(pick="AP CSP", user="Admin"),
+                Class(pick="AP Chemistry", user="Admin"),
+                Class(pick="AP Biology", user="Admin"),
+                Class(pick="AP Seminar", user="Admin"),
+                Class(pick="AP Environmental Science", user="Admin"),
+                Class(pick="AP World History", user="Admin"),
+                Class(pick="AP Calculus AB", user="Admin"),
+                Class(pick="AP Calculus BC", user="Admin"),
+                Class(pick="Photography", user="Admin"),
+                Class(pick="AP CSA", user="Admin"),
+                Class(pick="CSSE", user="Admin"),
+                Class(pick="AP Lunch Theory", user="Admin"),
+                Class(pick="World History ", user="Admin"),
+                Class(pick="Chemistry", user="Admin"),
+                Class(pick="Offrole", user="Admin"),
+                Class(pick="English", user="Admin"),
+                Class(pick="AP Language", user="Admin"),
+                Class(pick="AP Literature", user="Admin"),
+                Class(pick="Math", user="Admin"),
+                Class(pick="P.E.", user="Admin"),
+                Class(pick="Spanish", user="Admin"),
+                Class(pick="Chinese", user="Admin"),
+                Class(pick="AP Spanish", user="Admin"),
+                Class(pick="AP Chinese", user="Admin"),
+                Class(pick="AP Photography", user="Admin"),
+                Class(pick="ASB", user="Admin"),
+                Class(pick="Human Body Systems", user="Admin"),
+                Class(pick="Principles of Biomedical Science", user="Admin"),
+                Class(pick="Business and Law", user="Admin")
+            ]
 
-            classes = [m1, m2, m3, m4]
-                
             for message in classes:
                     try:
                         message.create()
@@ -128,13 +147,10 @@ def update(self, inputs):
         raise ValueError("Inputs must be a dictionary.")
 
     # Extract fields from inputs
-    period = inputs.get("_period")  # Match column name
     pick = inputs.get("_pick")      # Match column name
     user = inputs.get("_user")      # Match column name
 
     # Update fields only if provided
-    if period:
-        self._period = period
     if pick:
         self._pick = pick
     if user:

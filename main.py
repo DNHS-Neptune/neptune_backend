@@ -243,40 +243,6 @@ def delete_ai_chat_logs():
     
     log.delete()
     return jsonify({"response": "Chat log deleted"}), 200
-    
-@app.route("/api/classes", methods=["GET"])
-def class_list():
-    return jsonify({"response": [
-        "AP CSP",
-        "AP Chemistry",
-        "AP Biology",
-        "AP Seminar",
-        "AP Environmental Science",
-        "AP World History",
-        "AP Calculus AB",
-        "AP Calculus BC",
-        "Photography",
-        "AP CSA",
-        "CSSE",
-        "AP Lunch Theory",
-        "World History ",
-        "Chemistry",
-        "Offrole",
-        "English",
-        "AP Language",
-        "AP Literature",
-        "Math",
-        "P.E.",
-        "Spanish",
-        "Chinese",
-        "AP Spanish",
-        "AP Chinese",
-        "AP Photography",
-        "ASB",
-        "Human Body Systems",
-        "Principles of Biomedical Science",
-        "Business and Law"
-    ]}), 200
 
 @app.route('/api/image', methods=['POST'])
 def add_img_to_post():
