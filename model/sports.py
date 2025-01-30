@@ -96,7 +96,7 @@ def initSports():
             db.create_all()
             """Tester data for table"""
                 
-            m1 = Sports(sport="Basketball", emoji="⚽️")
+            m1 = Sports(sport="Basketball", emoji="⚽️")   # Populates the table with data when the table is intialized
             m2 = Sports(sport="Tennis", emoji="🎾")
             m3 = Sports(sport="Soccer", emoji="⚽️")
             m4 = Sports(sport="Football", emoji="🏈")
