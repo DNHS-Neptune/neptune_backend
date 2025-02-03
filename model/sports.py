@@ -20,10 +20,6 @@ class Sports(db.Model):
         self._sport = sport
         self._emoji = emoji
     
-    @property
-    def content(self):
-        return self._content
-    
     def create(self):
         """
         The create method adds the object to the database and commits the transaction.
@@ -76,7 +72,6 @@ class Sports(db.Model):
             return None
         return self
     
-    @staticmethod
     def restore(data):
         sports = {}
         for sport_data in data:
@@ -108,39 +103,4 @@ def initSports():
                         message.create()
                     except IntegrityError:
                         db.session.remove()
-
-def update(self, inputs):
-    """
-    Updates the Class object with new data.
-    
-    Args:
-        inputs (dict): A dictionary containing the new data for the Class object.
-    
-    Returns:
-        Class: The updated Class object, or None if an error occurs.
-    """
-    if not isinstance(inputs, dict):
-        raise ValueError("Inputs must be a dictionary.")
-
-    # Extract fields from inputs
-    sport = inputs.get("_sport")  # Match column name
-    emoji = inputs.get("_emoji")      # Match column name
-
-    # Update fields only if provided
-    if sport:
-        self._sport = sport
-    if emoji:
-        self._emoji = emoji
-        
-    try:
-        db.session.commit()
-        return self
-    except IntegrityError as e:
-        db.session.rollback()
-        print(f"IntegrityError: {e}")
-        return None
-    except Exception as e:
-        db.session.rollback()
-        print(f"An error occurred: {e}")
-        return None
-
+                        
