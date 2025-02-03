@@ -231,6 +231,45 @@ def ai_homework_help():
         print(e)
         return jsonify({"error": str(e)}), 500     # ju poo bDA KLINGO A POO A NEW KAMA KJIT HAAIIII SLIBITISA DOOP A D WIT  bood a a bidaa boop kayy haiiiii  
 
+@app.route('/api/ai/update', methods=['PUT'])
+def update_ai_question():
+    data = request.get_json()
+    old_question = data.get("oldQuestion", "")
+    new_question = data.get("newQuestion", "")
+
+    if not old_question or not new_question:
+        return jsonify({"error": "Both old and new questions are required."}), 400
+
+    # Fetch the old log
+    log = PoseidonChatLog.query.filter_by(_question=old_question).first()
+    if not log:
+        return jsonify({"error": "Old question not found."}), 404
+
+    try:
+        # Generate a new response for the new question
+        response = model.generate_content(f"Your name is Poseidon, you are a homework help AI chatbot. Only answer homework-related questions. \nHere is your prompt: {new_question}")
+        new_response = response.text
+
+        # Update the database entry
+        log._question = new_question
+        log._response = new_response
+        db.session.commit()
+
+        return jsonify({"response": new_response}), 200
+    except Exception as e:
+        print("Error during update:", e)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/ai/logs', methods=['GET'])
+def fetch_all_logs():
+    try:
+        logs = PoseidonChatLog.query.all()
+        return jsonify([log.read() for log in logs]), 200
+    except Exception as e:
+        print("Error fetching logs:", e)
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/ai/delete", methods=["DELETE"])
 def delete_ai_chat_logs():
     data = request.get_json()
