@@ -15,6 +15,6 @@ ENV GUNICORN_CMD_ARGS="--workers=3 --bind=0.0.0.0:8204"
 EXPOSE 8204
 
 # Define environment variable
-ENV FLASK_ENV=production
+ENV FLASK_ENV=deployed
 
 CMD [ "gunicorn", "main:app" ]
