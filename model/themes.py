@@ -118,49 +118,281 @@ def initThemes():
         
         t1 = Theme(
     theme='Red',
-    css="""/* Light Theme Styles */
-.light-theme .profile-container {
-    background: linear-gradient(to right, #ffecd2, #fcb69f); /* Soft peach gradient */
-    color: #333333;
-    border: 1px solid #ffb88c;
-    box-shadow: 0 4px 8px rgba(255, 150, 100, 0.3);
-}
+    css="""<style>
+    /* Flex container for overall layout */
+    .profile-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+        gap: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #ffcccc; /* Light red background */
+    }
+  
+    /* Profile Picture Section */
+    .image-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 40%;
+    }
 
-.light-theme .form-section button,
-.light-theme .form-section select {
-    background: linear-gradient(to bottom, #ffb88c, #ff6347); /* Warm orange-red gradient */
-    color: white;
-    border: none;
-    box-shadow: 0 2px 5px rgba(255, 99, 71, 0.5);
-}
+    #profileImageBox {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #ff0000; /* Red border */
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
 
-.light-theme .form-section button:hover,
-.light-theme .form-section select:hover {
-    background: linear-gradient(to bottom, #ff6347, #ff4500); /* Darker orange-red on hover */
-}
+    #profileImageBox img {
+        width: 120%;
+        height: 120%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .file-icon {
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        color: #ff0000; /* Red icon */
+    }
+
+    .file-icon i {
+        margin-left: 5px;
+    }
+
+    /* Form Section */
+    .form-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #ff0000; /* Red text for labels */
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ff6666; /* Light red border */
+        font-size: 1rem;
+        color: #ff0000; /* Red text */
+        background-color: #fff; /* White background for inputs */
+    }
+
+    input::placeholder {
+        opacity: 0.7;
+        color: #ff6666; /* Light red placeholder text */
+    }
+
+    /* Theme Selection Section */
+    .theme-switch {
+        margin-top: 15px;
+    }
+
+    #theme {
+        padding: 8px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ff6666; /* Light red border for dropdown */
+        background-color: #fff;
+        color: #ff0000; /* Red text for theme dropdown */
+    }
+
+    #applytheme {
+        background-color: #ff0000; /* Bright red button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    #applytheme:hover {
+        background-color: #e60000; /* Darker red on hover */
+    }
+
+    /* Button Styling */
+    .side-btn {
+        background-color: #ff3333; /* Darker red button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .side-btn:hover {
+        background-color: #e60000; /* Darker red on hover */
+    }
+
+    /* Optional message styling */
+    #profile-message {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #ff6666; /* Light red text for messages */
+    }
+</style>
 """
 )
 
-        t2 = Theme(theme='Green', css="""/* Dark Theme Styles */
-.dark-theme .profile-container {
-    background: linear-gradient(to bottom, #232526, #414345); /* Deep gray gradient */
-    color: #ffffff;
-    border: 1px solid #666;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
+        t2 = Theme(theme='Green', css="""<style>
+    /* Flex container for overall layout */
+    .profile-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+        gap: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #c8e6c9; /* Light green background */
+    }
+  
+    /* Profile Picture Section */
+    .image-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 40%;
+    }
 
-.dark-theme .form-section button,
-.dark-theme .form-section select {
-    background: linear-gradient(to right, #ff416c, #ff4b2b); /* Vivid pink-red gradient */
-    color: white;
-    border: none;
-    box-shadow: 0 2px 5px rgba(255, 65, 108, 0.5);
-}
+    #profileImageBox {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #388e3c; /* Dark green border */
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
 
-.dark-theme .form-section button:hover,
-.dark-theme .form-section select:hover {
-    background: linear-gradient(to right, #ff4b2b, #ff1a00); /* Deeper red on hover */
-}
+    #profileImageBox img {
+        width: 120%;
+        height: 120%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .file-icon {
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        color: #388e3c; /* Dark green icon */
+    }
+
+    .file-icon i {
+        margin-left: 5px;
+    }
+
+    /* Form Section */
+    .form-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #388e3c; /* Dark green text for labels */
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #81c784; /* Light green border */
+        font-size: 1rem;
+        color: #388e3c; /* Dark green text */
+        background-color: #fff; /* White background for inputs */
+    }
+
+    input::placeholder {
+        opacity: 0.7;
+        color: #81c784; /* Light green placeholder text */
+    }
+
+    /* Theme Selection Section */
+    .theme-switch {
+        margin-top: 15px;
+    }
+
+    #theme {
+        padding: 8px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid #81c784; /* Light green border for dropdown */
+        background-color: #fff;
+        color: #388e3c; /* Dark green text for theme dropdown */
+    }
+
+    #applytheme {
+        background-color: #388e3c; /* Dark green button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    #applytheme:hover {
+        background-color: #2c6b2f; /* Even darker green on hover */
+    }
+
+    /* Button Styling */
+    .side-btn {
+        background-color: #66bb6a; /* Medium green button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .side-btn:hover {
+        background-color: #388e3c; /* Dark green on hover */
+    }
+
+    /* Optional message styling */
+    #profile-message {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #81c784; /* Light green text for messages */
+    }
+</style>
 """)
         themes = [t1, t2]
         
