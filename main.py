@@ -157,6 +157,11 @@ def u2table():
     users = User.query.all()
     return render_template("u2table.html", user_data=users)
 
+@app.route('/poseidon')
+def pose_admin():
+    logs = PoseidonChatLog.query.all()
+    return render_template("poseidon.html", user_data=logs)
+
 # Helper function to extract uploads for a user (ie PFP image)
 @app.route('/uploads/<path:filename>')
 def uploaded_file(filename):
