@@ -13,7 +13,7 @@ api = Api(class_api)
 class ClassAPI:
     class AddClass(Resource):
         @token_required()
-        def post():
+        def post(self):
             current_user = g.current_user  # Get the logged-in user
 
             data = request.get_json()
@@ -38,7 +38,7 @@ class ClassAPI:
             
 # READ (GET) - Fetch all classes
         @staticmethod
-        def get():
+        def get(self):
             try:
                 classes = Class.query.all()
                 return [class_item.read() for class_item in classes], 200
@@ -47,7 +47,7 @@ class ClassAPI:
 
         # UPDATE (PUT)
         @staticmethod
-        def put():
+        def put(self):
             data = request.get_json()
             if data is None:
                 return {'message': 'Post data not found'}, 400
@@ -63,7 +63,7 @@ class ClassAPI:
 
         # DELETE (DELETE)
         @staticmethod
-        def delete():
+        def delete(self):
             try:
                 body = request.get_json()
                 if not body or 'id' not in body:
