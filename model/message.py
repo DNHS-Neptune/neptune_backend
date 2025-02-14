@@ -5,8 +5,8 @@ class Message(db.Model):
     __tablename__ = 'messages'
 
     id = db.Column(db.Integer, primary_key=True)
-    _content= db.Column(db.String(255), unique=True, nullable=False)
-    _user= db.Column(db.String(255), unique=True, nullable=False)
+    _content= db.Column(db.String(255), unique=False, nullable=False)
+    _user= db.Column(db.String(255), unique=False, nullable=False)
     
     def __init__(self, content, user):
         """
