@@ -12,7 +12,6 @@ api = Api(class_api)
 
 class ClassAPI:
     class AddClass(Resource):
-        @token_required()
         def post(self):
             current_user = g.current_user  # Get the logged-in user
 
@@ -35,9 +34,6 @@ class ClassAPI:
             except Exception as e:
                 return {"message": f"Error adding class: {str(e)}"}, 500
 
-            
-# READ (GET) - Fetch all classes
-        @staticmethod
         def get(self):
             try:
                 classes = Class.query.all()
@@ -45,8 +41,6 @@ class ClassAPI:
             except Exception as e:
                 return {"message": f"Error fetching classes: {str(e)}"}, 500
 
-        # UPDATE (PUT)
-        @staticmethod
         def put(self):
             data = request.get_json()
             if data is None:
@@ -60,9 +54,6 @@ class ClassAPI:
             db.session.commit()
             return jsonify(classss.read())
         
-
-        # DELETE (DELETE)
-        @staticmethod
         def delete(self):
             try:
                 body = request.get_json()
