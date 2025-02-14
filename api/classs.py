@@ -12,6 +12,7 @@ api = Api(class_api)
 
 class ClassAPI:
     class AddClass(Resource):
+        @token_required()
         def post(self):
             current_user = g.current_user  # Get the logged-in user
 
