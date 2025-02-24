@@ -162,6 +162,11 @@ def pose_admin():
     logs = PoseidonChatLog.query.all()
     return render_template("poseidon.html", user_data=logs)
 
+@app.route("/chatroom")
+def chat_admin():
+    logs = Message.query.all()
+    return render_template("chatroom.html", user_data=logs)
+
 # Helper function to extract uploads for a user (ie PFP image)
 @app.route('/uploads/<path:filename>')
 def uploaded_file(filename):
@@ -464,6 +469,39 @@ def handle_chat_update(data):
     
     msg.update({"content": new_content})
     return emit("chat_up", {"data": msg.read()}, broadcast=True)
+
+@app.route("api/chatt/update", methods=["PUT"])
+def api_chat_up():
+    data = request.get_json()
+    if not data:
+        return jsonify({ "message": "no data" })
+
+    message_id = data.get("id")
+    new_content = data.get("content")
+
+    if not message_id or not new_content:
+        return jsonify({"message": "Invalid data: 'id' and 'content' are required"})
+
+    msg = Message.query.get(message_id)
+    print("msg", msg.read())
+    if msg is None:
+        return jsonify({"message": "Message not found"})
+    
+    msg.update({"content": new_content})
+    return jsonify({"data": msg.read()})
+
+@app.route("api/chatt/delete", methods=["DELETE"])
+def api_chat_del():
+    data = request.get_json()
+    if not data:
+        return jsonify({ "message": "no data" })
+    
+    msg = Message.query.get(data["id"])
+    if not msg:
+        return jsonify({"message": "chat log not found"})
+    
+    msg.delete()
+    return jsonify({"id": data["id"]})
 
         
 # this runs the flask application on the development server
