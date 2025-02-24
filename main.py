@@ -167,6 +167,16 @@ def chat_admin():
     logs = Message.query.all()
     return render_template("chatroom.html", user_data=logs)
 
+@app.route("/themes")
+def theme_admin():
+    themes = Theme.query.all()
+    return render_template("themes.html", user_data=themes)
+
+@app.route("/classes")
+def class_admin():
+    classes = Class.query.all()
+    return render_template("classes.html", user_data=classes)
+
 # Helper function to extract uploads for a user (ie PFP image)
 @app.route('/uploads/<path:filename>')
 def uploaded_file(filename):
