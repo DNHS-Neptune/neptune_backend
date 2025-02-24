@@ -40,6 +40,7 @@
 </style>
 
 <h1>Poseidon Chatbot Logs</h1>
+<input type="text" id="up" placeholder="New Message" disabled />
 <table id="chat-log-table">
   <thead>
     <tr>
@@ -55,7 +56,7 @@
       <td>{{ log.response }}</td>
       <td>
         <button onclick="updateLog(`{{ log.question }}`)">Update</button>
-        <button onclick="updateLog(`{{ log.question }}`)">Delete</button>
+        <button onclick="deleteLog(`{{ log.question }}`)">Delete</button>
       </td>
     </tr>
     {% endfor %}
@@ -75,18 +76,32 @@
     },
   };
 
-  function deleteLog(id) {}
-  function updateLog(id) {
-    let msg = prompt("New Message");
-
-    fetch(`${pythonURI}/api/ai/update`, {
+  function deleteLog(id) {
+    fetch(`${pythonURI}/api/ai/delete`, {
       ...fetchOptions,
-      method: "PUT",
-      body: JSON.stringify({ oldQuestion: id, newQuestion: msg }),
+      method: "DELETE",
+      body: JSON.stringify({ question: id }),
     })
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
+        document.location.reload();
+      });
+  }
+  function updateLog(id) {
+    let msg = document.getElementById("up");
+    msg.removeAttribute("disabled");
+
+    fetch(`${pythonURI}/api/ai/update`, {
+      ...fetchOptions,
+      method: "PUT",
+      body: JSON.stringify({ oldQuestion: id, newQuestion: msg.value }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        msg.setAttribute("disabled", "true");
+        document.location.reload();
       });
   }
 </script>
