@@ -1,112 +1,125 @@
 {% extends "layouts/base.html" %} {% block body %}
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
-  }
-  table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background: white;
-  }
-  th,
-  td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-  }
-  th {
-    background-color: #0077be;
-    color: white;
-  }
-  button {
-    margin: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-  }
-  .update-btn {
-    background-color: #4caf50;
-    color: white;
-  }
-  .delete-btn {
-    background-color: #ff4d4d;
-    color: white;
-  }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        text-align: center;
+    }
+
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #0077be;
+        color: white;
+    }
+
+    button {
+        margin: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .update-btn {
+        background-color: #4caf50;
+        color: white;
+    }
+
+    .delete-btn {
+        background-color: #ff4d4d;
+        color: white;
+    }
 </style>
 
 <h1>Chatroom Logs</h1>
 <input type="text" id="up" placeholder="New Message" disabled />
+<button id="uwu" disabled>Send</button>
 <table id="chat-log-table">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Content</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for log in user_data %}
-    <tr>
-      <td>{{ log.user }}</td>
-      <td>{{ log.content }}</td>
-      <td>
-        <button onclick="updateLog(`{{ log.id }}`)">Update</button>
-        <button onclick="deleteLog(`{{ log.id }}`)">Delete</button>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Content</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in user_data %}
+        <tr>
+            <td>{{ log.user }}</td>
+            <td>{{ log.content }}</td>
+            <td>
+                <button onclick="updateLog(`{{ log.id }}`)">Update</button>
+                <button onclick="deleteLog(`{{ log.id }}`)">Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
 <script>
-  const pythonURI = "https://neptune.stu.nighthawkcodingsociety.com";
-  const fetchOptions = {
-    method: "GET",
-    mode: "cors",
-    cache: "default",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Origin": "client",
-    },
-  };
+    const pythonURI = "https://neptune.stu.nighthawkcodingsociety.com";
+    const fetchOptions = {
+        method: "GET",
+        mode: "cors",
+        cache: "default",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            "X-Origin": "client",
+        },
+    };
 
-  function deleteLog(id) {
-    fetch(`${pythonURI}/api/chatt/delete`, {
-      ...fetchOptions,
-      method: "DELETE",
-      body: JSON.stringify({ question: id }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        document.location.reload();
-      });
-  }
-  function updateLog(id) {
-    let msg = document.getElementById("up");
-    msg.removeAttribute("disabled");
+    function deleteLog(id) {
+        fetch(`${pythonURI}/api/chatt/delete`, {
+            ...fetchOptions,
+            method: "DELETE",
+            body: JSON.stringify({ question: id }),
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                console.log(json);
+                document.location.reload();
+            });
+    }
+    function updateLog(id) {
+        let msg = document.getElementById("up");
+        msg.removeAttribute("disabled");
 
-    fetch(`${pythonURI}/api/chatt/update`, {
-      ...fetchOptions,
-      method: "PUT",
-      body: JSON.stringify({ id, content: msg.value }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        msg.setAttribute("disabled", "true");
-        document.location.reload();
-      });
-  }
+        let uwu = document.getElementById("uwu");
+        msg.removeAttribute("disabled");
+
+        uwu.addEventListener("click", () => {
+            fetch(`${pythonURI}/api/chatt/update`, {
+                ...fetchOptions,
+                method: "PUT",
+                body: JSON.stringify({ id, content: msg.value }),
+            })
+                .then((res) => res.json())
+                .then((json) => {
+                    console.log(json);
+                    msg.setAttribute("disabled", "true");
+                    uwu.setAttribute("disabled", "true");
+                    document.location.reload();
+                });
+        })
+    }
 </script>
 
 {% endblock %}
 
 <!- This is turning off birds background from base.html -->
-{% block background %} {% endblock %}
+    {% block background %} {% endblock %}
