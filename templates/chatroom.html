@@ -87,7 +87,7 @@
         fetch(`${pythonURI}/api/chatt/delete`, {
             ...fetchOptions,
             method: "DELETE",
-            body: JSON.stringify({ question: id }),
+            body: JSON.stringify({ id }),
         })
             .then((res) => res.json())
             .then((json) => {
