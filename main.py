@@ -480,7 +480,7 @@ def handle_chat_update(data):
     msg.update({"content": new_content})
     return emit("chat_up", {"data": msg.read()}, broadcast=True)
 
-@app.route("api/chatt/update", methods=["PUT"])
+@app.route("/api/chatt/update", methods=["PUT"])
 def api_chat_up():
     data = request.get_json()
     if not data:
@@ -500,7 +500,7 @@ def api_chat_up():
     msg.update({"content": new_content})
     return jsonify({"data": msg.read()})
 
-@app.route("api/chatt/delete", methods=["DELETE"])
+@app.route("/api/chatt/delete", methods=["DELETE"])
 def api_chat_del():
     data = request.get_json()
     if not data:
