@@ -103,8 +103,8 @@ def initMessages():
                 db.create_all()
                 """Tester data for table"""
                 
-                m1 = Message(user="nolan", content="yash patil is stupid")
-                m2 = Message(user="arya", content="i'm a dumb potato")
+                m1 = Message(user="nolan", content="hello anybody in period 4 calc ab, when is our next test?")
+                m2 = Message(user="arya", content="Friday, March 4, lets study together?")
                 messages = [m1, m2]
                 
                 for message in messages:
