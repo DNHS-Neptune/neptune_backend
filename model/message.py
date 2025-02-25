@@ -103,9 +103,12 @@ def initMessages():
                 db.create_all()
                 """Tester data for table"""
                 
-                m1 = Message(user="nolan", content="hello anybody in period 4 calc ab, when is our next test?")
-                m2 = Message(user="arya", content="Friday, March 4, lets study together?")
-                messages = [m1, m2]
+                m1 = Message(user="yash", content= "Hey, does anyone understand how to do question #12 from the homework for ap calculus ab period 4 mr.Froom?")
+                m2 = Message(user="arya", content="Yeah! You need to use the quotient rule")
+                m3 = Message(user = "yash", content="Wait, can why do we need the quotient rule here instead of just the power rule?")
+                m4 = Message(user = "arya", content="Good question! Since the function is a fraction where both the numerator and denominator have x, we can’t just differentiate term by term—we have to account for how they change together. That’s why we use the quotient rule.")
+                m5 = Message(user="yash", content= "Thank you so much! Ill make sure to chat you here if I need more help.")
+                messages = [m1, m2, m3, m4, m5]
                 
                 for message in messages:
                     try:
