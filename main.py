@@ -383,6 +383,7 @@ def extract_data():
         data['messages'] = [message.read() for message in Message.query.all()]
         data['classes'] = [classs.read() for classs in Class.query.all()]
         data['sports'] = [sports.read() for sports in Sports.query.all()]
+        data['flashcards'] = [nolan.read() for nolan in Nolans.query.all()]
     return data
 
 # Save extracted data to JSON files
@@ -397,7 +398,7 @@ def save_data_to_json(data, directory='backup'):
 # Load data from JSON files
 def load_data_from_json(directory='backup'):
     data = {}
-    for table in ['poseidon_chat_logs', 'users', 'sections', 'groups', 'channels', 'posts', 'themes', 'messages', 'classes', 'sports']:
+    for table in ['poseidon_chat_logs', 'users', 'sections', 'groups', 'channels', 'posts', 'themes', 'messages', 'classes', 'sports', 'flashcards']:
         with open(os.path.join(directory, f'{table}.json'), 'r') as f:
             data[table] = json.load(f)
     return data
@@ -413,6 +414,7 @@ def restore_data(data):
         _ = Post.restore(data['posts'])
         _ = Class.restore(data['classes'])
         _ = Theme.restore(data['themes'])
+        _ = Nolans.restore(data['flashcards'])
         # _ = Message.restore(data['messages'])
     print("Data restored to the new database.")
 

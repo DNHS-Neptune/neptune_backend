@@ -14,12 +14,19 @@ class NolanDBAPI:
                 # Get request body
                 body = request.get_json()
                 
-                if not body or 'name' not in body :
-                    return {"message": "Invalid request. name is required."}, 400
+                if not body:
+                    return {"message": "Invalid request."}, 400
                 
-                name = body["name"]
+                if 'front' not in body:
+                    return {"message": "Front of card not found."}, 400
+                
+                if 'back' not in body:
+                    return {"message": "Back of card not found."}, 400
+                
+                front = body['front']
+                back = body['back']
 
-                new_nolan = Nolans(name=name)
+                new_nolan = Nolans(front=front, back=back)
                 new_nolan.create()
 
                 # Return success response
@@ -40,7 +47,7 @@ class NolanDBAPI:
             if nolan is None:
                 return {'message': 'Nolan not found'}, 404
             
-            nolan.update({"name": data['name']})
+            nolan.update({'front': data['front'], 'back': data['back']})
             return jsonify(nolan.read())
         
         def delete(self):
@@ -56,4 +63,4 @@ class NolanDBAPI:
             return jsonify({"message": "Nolan deleted"})
                 
 # Add the route to the API
-api.add_resource(NolanDBAPI.User, '/nolandb')
+api.add_resource(NolanDBAPI.User, '/flashcards')

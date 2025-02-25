@@ -2,25 +2,15 @@ from sqlite3 import IntegrityError
 from __init__ import app, db
 
 class Nolans(db.Model):
-    __tablename__ = 'nolans'
+    __tablename__ = 'flashcards'
 
     id = db.Column(db.Integer, primary_key=True)
-    _name= db.Column(db.String(255), nullable=False)
-    
-    def __init__(self, name):
-        """
-        Constructor, 1st step in object creation.
-        
-        Args:
-            name (str): The name of the group.
-            section_id (int): The section to which the group belongs.
-            moderators (list, optional): A list of classes who are the moderators of the group. Defaults to None.
-        """
-        self._name = name
-        
-    @property
-    def name(self):
-        return self._name
+    _front= db.Column(db.String(255), nullable=False)
+    _back = db.Column(db.String(255), nullable=False)
+
+    def __init__(self, front, back):
+        self._front = front
+        self._back = back
     
     def create(self):
         """
@@ -49,7 +39,8 @@ class Nolans(db.Model):
         """
         return {
             'id': self.id,
-            'name': self._name,
+            'front': self._front,
+            'back': self._back
         }
     
     def update(self, inputs):
@@ -65,11 +56,15 @@ class Nolans(db.Model):
         if not isinstance(inputs, dict):
             return self
 
-        name = inputs.get("name", "")
+        front = inputs.get("front", "")
+        back = inputs.get("back", "")
 
         # Update table with new data
-        if name:
-            self._name = name
+        if front:
+            self._front = front
+        if back:
+            self._back = back
+
         try:
             db.session.commit()
         except IntegrityError:
@@ -99,8 +94,8 @@ class Nolans(db.Model):
         classes = {}
         for class_data in data:
             _ = class_data.pop('id', None)
-            name = class_data.get("name", None)
-            message = Nolans.query.filter_by(_name=name).first()
+            front = class_data.get("front", None)
+            message = Nolans.query.filter_by(_front=front).first()
             if message:
                 message.update(class_data)
             else:
@@ -114,9 +109,13 @@ def initNolans():
                 db.create_all()
                 """Tester data for table"""
                 
-                m1 = Nolans(name="Nolan")
-                m2 = Nolans(name="Nolan 2")
-                classes = [m1, m2]
+                classes = [
+                    Nolans("What is the capital of California?", "Sacramento"),
+                    Nolans("What is the capital of Texas?", "Austin"),
+                    Nolans("What is the capital of New York?", "Albany"),
+                    Nolans("What is the capital of Florida?", "Tallahassee"),
+                    Nolans("What is the capital of Georgia?", "Atlanta"),
+                ]
                 
                 for message in classes:
                     try:
