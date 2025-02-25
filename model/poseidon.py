@@ -119,7 +119,7 @@ def initPoseidonChatLogs():
         # Example chat logs
         log1 = PoseidonChatLog(question="What is Newton's third law?", response="Newton's third law states that for every action, there is an equal and opposite reaction.")
         log2 = PoseidonChatLog(question="What is the capital of France?", response="The capital of France is Paris.")
-        
+        log2 = PoseidonChatLog(question="What is the quadratic formula?", response="The quadratic formula is a mathematical formula that can be used to find the roots of a quadratic equation, which is an equation of the form ax^2 + bx + c = 0, where a, b, and c are constants and x is the variable. The quadratic formula is: x = (-b ± √(b^2 - 4ac)) / 2a")
         chat_logs = [log1, log2]
 
         for log in chat_logs:
