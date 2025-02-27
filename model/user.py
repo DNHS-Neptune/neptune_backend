@@ -4,9 +4,9 @@ from flask_login import UserMixin
 from datetime import date
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
+from model.themes import Theme
 import os
 import json
-
 from __init__ import app, db
 
 """ Helper Functions """
@@ -65,7 +65,7 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy=True)
                                  
     
-    def __init__(self, name, uid, password="", role="User", pfp='', car='', email='?', theme_mode='light', friends='[]' ):
+    def __init__(self, name, uid, password="", role="User", pfp='', car='', email='?', theme_mode=' ', friends='[]' ):
         """
         Constructor, 1st step in object creation.
         
@@ -83,7 +83,7 @@ class User(db.Model, UserMixin):
         self._role = role
         self._pfp = pfp
         self._car = car
-        self._theme_mode = theme_mode
+        self._theme_mode = uid
         self._friends = friends
 
     # UserMixin/Flask-Login requires a get_id method to return the id as a string
@@ -343,6 +343,146 @@ class User(db.Model, UserMixin):
             db.session.commit()  # SqlAlchemy "unit of work pattern" requires a manual commit
             if inputs:
                 self.update(inputs)
+            
+            new_theme = Theme(theme=self.uid, css="""<style>
+    /* Flex container for overall layout */
+    .profile-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+        gap: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #c8e6c9; /* Light green background */
+    }
+  
+    /* Profile Picture Section */
+    .image-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 40%;
+    }
+
+    #profileImageBox {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #388e3c; /* Dark green border */
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #profileImageBox img {
+        width: 120%;
+        height: 120%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
+    .file-icon {
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        color: #388e3c; /* Dark green icon */
+    }
+
+    .file-icon i {
+        margin-left: 5px;
+    }
+
+    /* Form Section */
+    .form-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #388e3c; /* Dark green text for labels */
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #81c784; /* Light green border */
+        font-size: 1rem;
+        color: #388e3c; /* Dark green text */
+        background-color: #fff; /* White background for inputs */
+    }
+
+    input::placeholder {
+        opacity: 0.7;
+        color: #81c784; /* Light green placeholder text */
+    }
+
+    /* Theme Selection Section */
+    .theme-switch {
+        margin-top: 15px;
+    }
+
+    #theme {
+        padding: 8px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid #81c784; /* Light green border for dropdown */
+        background-color: #fff;
+        color: #388e3c; /* Dark green text for theme dropdown */
+    }
+
+    #applytheme {
+        background-color: #388e3c; /* Dark green button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    #applytheme:hover {
+        background-color: #2c6b2f; /* Even darker green on hover */
+    }
+
+    /* Button Styling */
+    .side-btn {
+        background-color: #66bb6a; /* Medium green button */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .side-btn:hover {
+        background-color: #388e3c; /* Dark green on hover */
+    }
+
+    /* Optional message styling */
+    #profile-message {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #81c784; /* Light green text for messages */
+    }
+</style>
+""")
+            new_theme.create()
+
             return self
         except IntegrityError:
             db.session.rollback()

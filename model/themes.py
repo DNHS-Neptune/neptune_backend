@@ -6,7 +6,7 @@ class Theme(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     _theme = db.Column(db.String(255), unique=True, nullable=False)
-    _css = db.Column(db.String(255), unique=True, nullable=False)
+    _css = db.Column(db.String(255), unique=False, nullable=False)
     
     def __init__(self, theme, css):
         """

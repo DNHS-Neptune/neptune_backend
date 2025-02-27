@@ -83,30 +83,27 @@ class ThemeApi(Resource):
 class ThemeReadAPI(Resource):
     def post(self):
         try:
-            # Parse the JSON body
             body = request.get_json()
+            print("Received JSON:", body)  # Debugging
+
+            if not body or 'theme_name' not in body:
+                return {"message": "Invalid request. 'theme_name' is required."}, 400
             
-            # Validate the input
-            if not body or 'id' not in body:
-                return {"message": "Invalid request. 'id' is required to read."}, 400
-            
-            theme_id = body['id']  # Use 'id' instead of 'theme_name'
-            
-            # Find the theme by ID (assuming 'id' is a column in your Theme model)
-            read_theme = Theme.query.filter_by(id=theme_id).first()  # Filter by 'id'
+            theme_name = body['theme_name']
+            print(f"Searching for theme: {theme_name}")  # Debugging
+
+            read_theme = Theme.query.filter_by(_theme=theme_name).first()
             
             if read_theme:
-                # Use the model's update method to handle updates
-                read_theme_data = read_theme.read()  # This returns the full dictionary
-                css_value = read_theme_data.get('css')  # Extracts only the CSS value
-
-                return {
-                    "css": css_value
-                }, 200
+                print("Theme found:", read_theme.read())  # Debugging
+                return {"css": read_theme.read()["css"]}, 200  # Ensure correct key
             else:
+                print("Theme not found")  # Debugging
                 return {"message": "Theme not found."}, 404
         except Exception as e:
+            print("Error:", str(e))  # Debugging
             return {"message": f"Error occurred: {str(e)}"}, 500
+
 
 
 
